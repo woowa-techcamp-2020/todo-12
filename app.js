@@ -17,4 +17,6 @@ app.get('/', (req, res) => res.send('hello'));
 app.get('/users', controller.findAll);
 app.post('/users', controller.create);
 
+app.get('/users/:userId', controller.findOne);
+
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

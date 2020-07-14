@@ -3,6 +3,8 @@ const sql = require("./db.js");
 // constructor
 const User = function(user) {
   this.name = user.name;
+  this.a = "askdfakljs";
+  this.b = "askjf;la"
 };
 
 User.create = (newUser, result) => {
@@ -30,5 +32,25 @@ User.getAll = result => {
     result(null, res);
   });
 };
+
+User.findById = (userId, result) => {
+  sql.query(`SELECT * FROM user WHERE id = ${userId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found user: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Customer with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 
 module.exports = User;

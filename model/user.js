@@ -3,7 +3,7 @@ const sql = require("../db.js");
 // constructor
 const User = function (user) {
   this.name = user.name;
-  this.avater = user.avatar || null;
+  this.avatar = user.avatar || null;
 };
 
 User.create = (newUser, result) => {

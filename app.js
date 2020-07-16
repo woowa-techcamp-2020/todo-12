@@ -36,6 +36,7 @@ app.delete("/users/:userId", userController.delete);
 app.get("/boards", boardController.findAll);
 app.post("/boards", boardController.create);
 app.get("/boards/:boardId", boardController.findOne);
+app.put("/boards/:boardId", boardController.update);
 app.delete("/boards/:boardId", boardController.delete);
 
 // list

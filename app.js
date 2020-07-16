@@ -46,6 +46,7 @@ app.delete("/lists/:listId", listController.delete);
 
 // item
 app.post("/items", itemController.create);
+app.put("/items/:itemId", itemController.update);
 app.delete("/items/:itemId", itemController.delete);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

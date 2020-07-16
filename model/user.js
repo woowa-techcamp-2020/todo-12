@@ -1,14 +1,13 @@
-const sql = require("./db.js");
+const sql = require("../db.js");
 
 // constructor
-const User = function(user) {
+const User = function (user) {
   this.name = user.name;
-  this.a = "askdfakljs";
-  this.b = "askjf;la"
+  this.avater = user.avatar || null;
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -20,8 +19,8 @@ User.create = (newUser, result) => {
   });
 };
 
-User.getAll = result => {
-  sql.query("SELECT * FROM user", (err, res) => {
+User.getAll = (result) => {
+  sql.query("SELECT * FROM users", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -34,7 +33,7 @@ User.getAll = result => {
 };
 
 User.findById = (userId, result) => {
-  sql.query(`SELECT * FROM user WHERE id = ${userId}`, (err, res) => {
+  sql.query(`SELECT * FROM users WHERE id = ${userId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -51,6 +50,5 @@ User.findById = (userId, result) => {
     result({ kind: "not_found" }, null);
   });
 };
-
 
 module.exports = User;

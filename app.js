@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("./controller/userController.js");
 const boardController = require("./controller/boardController.js");
+const listController = require("./controller/listController.js");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -24,5 +25,8 @@ app.delete("/users/:userId", userController.delete);
 app.post("/boards", boardController.create);
 app.get("/boards/:boardId", boardController.findOne);
 app.delete("/boards/:boardId", boardController.delete);
+
+// list
+app.post("/lists", listController.create);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

@@ -1,11 +1,6 @@
-import MainService from "./mainService.js";
+import { main } from "./mainService.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const targetEl = document.querySelector("#log");
-
-  const service = new MainService({ targetEl });
-  const datalist = [1, 2, 3, 4, [5, 6, [7]]];
-  service.init(datalist.flat(2));
-
-  targetEl.innerHTML += `datalist is ${service.dataList}`;
+  const app = document.querySelector("#app");
+  app.innerHTML = `I'm from ${main()}`;
 });

@@ -7,11 +7,16 @@ exports.create = (req, res) => {
     });
   }
 
+  const currentTime = new Date();
+  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
+
   // Create a Customer
   const board = new Board({
     // name: req.body.name,
     name: req.body.name,
-    userId: 1, // 로그인 정보로 변경할 것
+    created_at: timestamp,
+    updated_at: timestamp,
+    user_id: req.body.user_id, // 로그인 정보로 변경할 것
   });
 
   // Save Customer in the database

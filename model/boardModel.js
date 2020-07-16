@@ -3,26 +3,22 @@ const sql = require("../db.js");
 // constructor
 const Board = function (board) {
   this.name = board.name;
-  this.userId = board.userId;
+  this.created_at = board.created_at;
+  this.updated_at = board.updated_at;
+  this.user_id = board.user_id;
 };
 
 Board.create = (newBoard, result) => {
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-  sql.query(
-    "INSERT INTO boards SET name = ?, created_at = ?, updated_at = ?, user_id = ?",
-    [newBoard.name, timestamp, timestamp, newBoard.userId],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      console.log("created board: ", { id: res.insertId, ...newBoard });
-      result(null, { id: res.insertId, ...newBoard });
+  sql.query("INSERT INTO boards SET ?", newBoard, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
     }
-  );
+
+    console.log("created board: ", { id: res.insertId, ...newBoard });
+    result(null, { id: res.insertId, ...newBoard });
+  });
 };
 
 Board.findById = (boardId, result) => {

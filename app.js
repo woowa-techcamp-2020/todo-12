@@ -1,12 +1,21 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
 const userController = require("./controller/userController.js");
 const boardController = require("./controller/boardController.js");
 const listController = require("./controller/listController.js");
 const itemController = require("./controller/itemController.js");
-const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = 3000;
+
+const setHeader = function (req, res, next) {
+  res.set("Access-Control-Allow-Origin", "*");
+  next();
+};
+
+app.use(setHeader);
+app.use(logger("dev"));
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());

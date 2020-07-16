@@ -23,3 +23,19 @@ exports.create = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.delete = (req, res) => {
+  Board.delete(req.params.boardId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Board with id ${req.params.boardId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Board with id " + req.params.boardId,
+        });
+      }
+    } else res.send(data);
+  });
+};

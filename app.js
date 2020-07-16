@@ -22,6 +22,6 @@ app.delete("/users/:userId", userController.delete);
 
 // board
 app.post("/boards", boardController.create);
-// app.get('/boards/:boardId', controller)
+app.delete("/boards/:boardId", boardController.delete);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

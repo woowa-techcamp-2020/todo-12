@@ -91,7 +91,7 @@ Board.update = (boardId, updatedBoard, result) => {
         return;
       }
 
-      console.log(`boardid ${boardId} was updated`);
+      console.log(`boardId ${boardId} was updated`);
       result(null, { updatedId: boardId });
       return;
     }

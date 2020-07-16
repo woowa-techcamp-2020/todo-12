@@ -7,6 +7,17 @@ exports.create = (req, res) => {
     });
   }
 
+  const currentTime = new Date();
+  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
+
+  // Create a Board
+  const board = new Board({
+    name: req.body.name,
+    created_at: timestamp,
+    updated_at: timestamp,
+    user_id: req.body.user_id, // 로그인 정보로 변경할 것
+  });
+
   // Save Board in the database
   Board.create(board, (err, data) => {
     if (err)
@@ -18,7 +29,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  Board.getAll(1, (err, data) => { // 첫번째 매개변수로 로그인 정보
+  Board.getAll(1, (err, data) => { // 첫번째 매개변수로 로그인 정보(user_id)
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving Boards.",
@@ -53,7 +64,6 @@ exports.update = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a Board
   const board = new Board({
     name: req.body.name,
     updated_at: timestamp,
@@ -63,11 +73,11 @@ exports.update = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found User with id ${req.params.boardId}.`,
+          message: `Not found Board with id ${req.params.boardId}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving User with id " + req.params.boardId,
+          message: "Error retrieving Board with id " + req.params.boardId,
         });
       }
     } else res.send(data);

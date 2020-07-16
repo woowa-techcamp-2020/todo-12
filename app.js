@@ -41,6 +41,7 @@ app.delete("/boards/:boardId", boardController.delete);
 
 // list
 app.post("/lists", listController.create);
+app.put("/lists/:listId", listController.update);
 app.delete("/lists/:listId", listController.delete);
 
 // item

@@ -1,7 +1,6 @@
-const express = require('express');
-const controller = require('./controller.js');
+const express = require("express");
+const userController = require("./controller/userController.js");
 const bodyParser = require("body-parser");
-
 
 const app = express();
 const PORT = 3000;
@@ -12,11 +11,15 @@ app.use(bodyParser.json());
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => res.send('hello'));
+app.get("/", (req, res) => res.send("hello"));
 
-app.get('/users', controller.findAll);
-app.post('/users', controller.create);
+// user
+app.get("/users", userController.findAll);
+app.post("/users", userController.create);
+app.get("/users/:userId", userController.findOne);
+app.delete("/users/:userId", userController.delete);
 
-app.get('/users/:userId', controller.findOne);
+// board
+// app.get('/boards/:boardId', controller)
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

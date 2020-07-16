@@ -27,7 +27,7 @@ User.getAll = (result) => {
       return;
     }
 
-    console.log("USER: ", res);
+    console.log("all users: ", res);
     result(null, res);
   });
 };
@@ -48,6 +48,26 @@ User.findById = (userId, result) => {
 
     // not found Customer with the id
     result({ kind: "not_found" }, null);
+  });
+};
+
+User.delete = (userId, result) => {
+  sql.query(`DELETE FROM users WHERE id = ${userId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (!res.affectedRows) {
+      console.log("not_found");
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log(`userid ${userId} was deleted`);
+    result(null, { deletedId: userId });
+    return;
   });
 };
 

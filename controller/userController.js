@@ -1,4 +1,4 @@
-const User = require("./model/user.js");
+const User = require("../model/userModel.js");
 
 // Create and Save a new Customer
 exports.create = (req, res) => {
@@ -38,6 +38,22 @@ exports.findAll = (req, res) => {
 // Find a single Customer with a customerId
 exports.findOne = (req, res) => {
   User.findById(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found User with id ${req.params.userId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving User with id " + req.params.userId,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.delete = (req, res) => {
+  User.delete(req.params.userId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

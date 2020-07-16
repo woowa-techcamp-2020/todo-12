@@ -28,5 +28,6 @@ app.delete("/boards/:boardId", boardController.delete);
 
 // list
 app.post("/lists", listController.create);
+app.delete("/lists/:listId", listController.delete);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

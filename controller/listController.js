@@ -23,8 +23,24 @@ exports.create = (req, res) => {
   List.create(list, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Board.",
+        message: err.message || "Some error occurred while creating the List.",
       });
     else res.send(data);
+  });
+};
+
+exports.delete = (req, res) => {
+  List.delete(req.params.listId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found List with id ${req.params.listId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving List with id " + req.params.listId,
+        });
+      }
+    } else res.send(data);
   });
 };

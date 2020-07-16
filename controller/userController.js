@@ -12,6 +12,7 @@ exports.create = (req, res) => {
   // Create a Customer
   const user = new User({
     name: req.body.name,
+    avatar: req.body.avatar,
   });
 
   // Save Customer in the database
@@ -38,6 +39,34 @@ exports.findAll = (req, res) => {
 // Find a single Customer with a customerId
 exports.findOne = (req, res) => {
   User.findById(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found User with id ${req.params.userId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving User with id " + req.params.userId,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.update = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  // Create a Customer
+  const user = new User({
+    name: req.body.name,
+    avatar: req.body.avatar,
+  });
+
+  User.update(req.params.userId, user, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

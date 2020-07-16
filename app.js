@@ -20,6 +20,7 @@ app.get("/", (req, res) => res.send("hello"));
 app.get("/users", userController.findAll);
 app.post("/users", userController.create);
 app.get("/users/:userId", userController.findOne);
+app.put("/users/:userId", userController.update);
 app.delete("/users/:userId", userController.delete);
 
 // board

@@ -33,6 +33,7 @@ app.put("/users/:userId", userController.update);
 app.delete("/users/:userId", userController.delete);
 
 // board
+app.get("/boards", boardController.findAll);
 app.post("/boards", boardController.create);
 app.get("/boards/:boardId", boardController.findOne);
 app.delete("/boards/:boardId", boardController.delete);

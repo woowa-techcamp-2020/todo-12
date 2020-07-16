@@ -29,6 +29,16 @@ exports.create = (req, res) => {
   });
 };
 
+exports.findAll = (req, res) => {
+  Board.getAll(2, (err, data) => { // 첫번째 매개변수로 로그인 정보
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Boards.",
+      });
+    else res.send(data);
+  });
+};
+
 exports.findOne = (req, res) => {
   Board.findById(req.params.boardId, (err, data) => {
     if (err) {

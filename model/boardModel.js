@@ -21,6 +21,19 @@ Board.create = (newBoard, result) => {
   });
 };
 
+Board.getAll = (userId, result) => {
+  sql.query(`SELECT * FROM boards WHERE user_id = ${userId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("all boards: ", res);
+    result(null, res);
+  });
+};
+
 Board.findById = (boardId, result) => {
   sql.query(
     `SELECT

@@ -29,3 +29,19 @@ exports.create = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.delete = (req, res) => {
+  Item.delete(req.params.itemId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Item with id ${req.params.itemId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Item with id " + req.params.itemId,
+        });
+      }
+    } else res.send(data);
+  });
+};

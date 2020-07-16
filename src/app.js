@@ -1,6 +1,9 @@
 import { main } from "./mainService.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const app = document.querySelector("#app");
-  app.innerHTML = `I'm from ${main()}`;
+  fetch("http://localhost:3000/users", {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((json) => console.log(JSON.stringify(json)));
 });

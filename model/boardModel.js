@@ -42,7 +42,7 @@ Board.getAll = (userId, result) => {
 
 Board.findById = (boardId, result) => {
   sql.query(
-      `SELECT
+    `SELECT
         b.id as board_id,
         b.name as board_name,
         l.id as list_id,
@@ -59,7 +59,8 @@ Board.findById = (boardId, result) => {
         ON l.id = i.list_id
       LEFT JOIN users u
         ON i.performer_id = u.id
-      WHERE b.id = ${boardId};
+      WHERE b.id = ${boardId}
+      ORDER BY list_position, item_position_in_list;
     `,
     (err, res) => {
       if (err) {

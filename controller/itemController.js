@@ -43,6 +43,7 @@ exports.update = (req, res) => {
   const item = new Item({
     content: req.body.content,
     updated_at: timestamp,
+    position: req.body.position,
   });
 
   Item.update(req.params.itemId, item, (err, data) => {

@@ -42,6 +42,7 @@ exports.update = (req, res) => {
   const list = new List({
     title: req.body.title,
     updated_at: timestamp,
+    position: req.body.position,
   });
 
   List.update(req.params.listId, list, (err, data) => {

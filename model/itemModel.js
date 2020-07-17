@@ -25,8 +25,8 @@ Item.create = (newItem, result) => {
 
 Item.update = (itemId, updatedItem, result) => {
   sql.query(
-    `UPDATE items SET content = ?, updated_at = ? WHERE id = ${itemId}`,
-    [updatedItem.content, updatedItem.updated_at],
+    `UPDATE items SET content = ?, position = ?, updated_at = ? WHERE id = ${itemId}`,
+    [updatedItem.content, updatedItem.position, updatedItem.updated_at],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

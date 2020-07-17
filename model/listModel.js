@@ -23,8 +23,8 @@ List.create = (newList, result) => {
 
 List.update = (listId, updatedList, result) => {
   sql.query(
-    `UPDATE lists SET title = ?, updated_at = ? WHERE id = ${listId}`,
-    [updatedList.title, updatedList.updated_at],
+    `UPDATE lists SET title = ?, position = ?, updated_at = ? WHERE id = ${listId}`,
+    [updatedList.title, updatedList.position, updatedList.updated_at],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

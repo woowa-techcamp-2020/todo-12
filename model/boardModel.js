@@ -25,12 +25,18 @@ Board.getAll = (userId, result) => {
   sql.query(`SELECT * FROM boards WHERE user_id = ${userId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
-    console.log("all boards: ", res);
-    result(null, res);
+    if (res.length) {
+      console.log("found user: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Board with the id
+    result({ kind: "not_found" }, null);
   });
 };
 

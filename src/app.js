@@ -1,24 +1,29 @@
 import { main } from "./mainService.js";
 
-const isExist = function ({ list_id }) {
+const getList = function (id) {
   const board = document.querySelector(".board");
   const lists = board.querySelectorAll(".list");
-  return Array.from(lists).some(
-    (list) => parseInt(list.dataset.id) === list_id
-  );
-  return false;
+  return Array.from(lists).filter(
+    (list) => parseInt(list.dataset.id) === id
+  )[0];
 };
 
-const drawList = function (data) {
+const drawList = function (id) {
   const board = document.querySelector(".board");
-  // debugger;
+  const list = document.createElement("div");
+  list.classList.add("list");
+  list.dataset.id = id;
+  list.innerText = `no. ${id} list`;
+  board.appendChild(list);
+  return list;
+};
+
+const handleListDrawing = function (data) {
   data.forEach((elem) => {
-    if (isExist(elem)) return;
-    const list = document.createElement("div");
-    list.classList.add("list");
-    list.dataset.id = elem.list_id;
-    list.innerText = `no. ${elem.list_id} list`;
-    board.appendChild(list);
+    let list = getList(elem.list_id);
+    if (!list) {
+      list = drawList(elem.list_id);
+    }
   });
 };
 
@@ -28,7 +33,7 @@ const drawBoard = function (data) {
   board.classList.add("board");
   board.innerText = `no. ${data[0].board_id} board`;
   app.appendChild(board);
-  drawList(data);
+  handleListDrawing(data);
 };
 
 const handleData = function (data) {

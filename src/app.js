@@ -18,12 +18,21 @@ const drawList = function (id) {
   return list;
 };
 
+const drawItem = function (list, elem) {
+  const item = document.createElement("div");
+  item.classList.add("item");
+  item.dataset.id = elem.item_position_in_list;
+  item.innerText = `no. ${elem.item_position_in_list} item: ${elem.item_content}`;
+  list.appendChild(item);
+};
+
 const handleListDrawing = function (data) {
   data.forEach((elem) => {
     let list = getList(elem.list_id);
     if (!list) {
       list = drawList(elem.list_id);
     }
+    drawItem(list, elem);
   });
 };
 

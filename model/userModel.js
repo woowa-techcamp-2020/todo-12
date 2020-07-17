@@ -68,7 +68,7 @@ User.update = (userId, updatedUser, result) => {
         return;
       }
 
-      console.log(`userid ${userId} was updated`);
+      console.log(`userId ${userId} was updated`);
       result(null, { updatedId: userId });
       return;
     }

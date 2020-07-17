@@ -33,16 +33,20 @@ app.put("/users/:userId", userController.update);
 app.delete("/users/:userId", userController.delete);
 
 // board
+app.get("/boards", boardController.findAll);
 app.post("/boards", boardController.create);
 app.get("/boards/:boardId", boardController.findOne);
+app.put("/boards/:boardId", boardController.update);
 app.delete("/boards/:boardId", boardController.delete);
 
 // list
 app.post("/lists", listController.create);
+app.put("/lists/:listId", listController.update);
 app.delete("/lists/:listId", listController.delete);
 
 // item
 app.post("/items", itemController.create);
+app.put("/items/:itemId", itemController.update);
 app.delete("/items/:itemId", itemController.delete);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

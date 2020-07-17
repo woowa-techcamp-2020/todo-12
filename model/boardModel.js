@@ -21,25 +21,45 @@ Board.create = (newBoard, result) => {
   });
 };
 
+Board.getAll = (userId, result) => {
+  sql.query(`SELECT * FROM boards WHERE user_id = ${userId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found user: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Board with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Board.findById = (boardId, result) => {
   sql.query(
-    `SELECT
-      b.id as board_id,
-      l.id as list_id,
-      l.title as list_title,
-      l.position as list_position,
-      i.id as item_id,
-      i.content as item_content,
-      i.position as item_position_in_list,
-      u.name as item_performer_name
-    FROM boards b
-    INNER JOIN lists l
-      ON b.id = l.board_id
-        AND b.id = ${boardId}
-    INNER JOIN items i
-      ON l.id = i.list_id
-    INNER JOIN users u
-      ON i.performer_id = u.id;
+      `SELECT
+        b.id as board_id,
+        b.name as board_name,
+        l.id as list_id,
+        l.title as list_title,
+        l.position as list_position,
+        i.id as item_id,
+        i.content as item_content,
+        i.position as item_position_in_list,
+        u.name as item_performer_name
+      FROM boards b
+      LEFT JOIN lists l
+        ON b.id = l.board_id
+      LEFT JOIN items i
+        ON l.id = i.list_id
+      LEFT JOIN users u
+        ON i.performer_id = u.id
+      WHERE b.id = ${boardId};
     `,
     (err, res) => {
       if (err) {
@@ -54,8 +74,32 @@ Board.findById = (boardId, result) => {
         return;
       }
 
-      // not found Customer with the id
+      // not found Board with the id
       result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Board.update = (boardId, updatedBoard, result) => {
+  sql.query(
+    `UPDATE boards SET name = ?, updated_at = ? WHERE id = ${boardId}`,
+    [updatedBoard.name, updatedBoard.updated_at],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (!res.affectedRows) {
+        console.log("not_found");
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log(`boardId ${boardId} was updated`);
+      result(null, { updatedId: boardId });
+      return;
     }
   );
 };

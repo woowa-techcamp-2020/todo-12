@@ -1,5 +1,7 @@
-import { main } from "./mainService.js";
-const buttons = document.querySelectorAll("button");
+import Item from "../component/Item.js";
+
+const itemCreationBtn = document.querySelector(".itemCreateBtn");
+const boardFetchBtns = document.querySelectorAll(".boardFetchBtn");
 
 const getList = function (id) {
   const board = document.querySelector(".board");
@@ -63,8 +65,22 @@ const handleBoardBtnClick = function (e) {
     .then((json) => handleData(json));
 };
 
+const handleItemCreationBtnClick = function () {
+  const itemData = {
+    content: "item test",
+    position: 1,
+    list_id: 1,
+    performer_id: 1,
+    performer_username: "admin",
+  };
+  const itemInstance = new Item(itemData);
+  const item = itemInstance.renderItem();
+  document.body.appendChild(item);
+};
+
 window.addEventListener("DOMContentLoaded", () => {
-  buttons.forEach((button) =>
+  boardFetchBtns.forEach((button) =>
     button.addEventListener("click", handleBoardBtnClick)
   );
+  itemCreationBtn.addEventListener("click", handleItemCreationBtnClick);
 });

@@ -12,7 +12,7 @@ export default class {
     item.classList.add("item");
     item.innerHTML = `
       <div class="item__col">logo</div>
-      <div class="ite m__col">
+      <div class="item__col">
         <span class="item__content">${this.content}</span>
         <span class="item__creator">Added by ${this.performer_username}</span>
       </div>

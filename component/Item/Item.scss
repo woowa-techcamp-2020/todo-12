@@ -1,0 +1,30 @@
+.item {
+  display: flex;
+  height: $item-height;
+  width: $item-width;
+  background-color: $white;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: $basic-shadow;
+  transition: box-shadow 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+  .item__col {
+    height: 100%;
+    &:nth-child(2) {
+      display: flex;
+      width: 80%;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

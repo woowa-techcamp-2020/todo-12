@@ -1,4 +1,6 @@
-import Item from "../component/Item.js";
+import "./scss/styles.scss";
+
+import Item from "../component/Item/Item.js";
 
 const itemCreationBtn = document.querySelector(".itemCreateBtn");
 const boardFetchBtns = document.querySelectorAll(".boardFetchBtn");

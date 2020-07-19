@@ -207,9 +207,9 @@ export default class {
 
   resetItemCreationSection(textarea) {
     textarea.value = "";
-    this.removeEmptyContentWarning(textarea);
+    this.removeWarning(textarea, config.WARNING_TYPE.EMPTY);
     textarea.parentElement.querySelector(".char-counter").innerText = 0;
-    this.removeTooLongWarning(textarea);
+    this.removeWarning(textarea, config.WARNING_TYPE.TOO_LONG);
   }
 
   handleCancelItemCreationBtnClick({ currentTarget: btn }) {

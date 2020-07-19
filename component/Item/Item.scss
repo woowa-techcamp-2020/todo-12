@@ -54,12 +54,12 @@
       transition: filter 0.2s ease-in-out;
     }
     .update-btn {
-      background-color: $blue;
+      background-color: $ok;
       margin-right: 10px;
     }
     .cancel-btn {
-      background-color: $grey;
-      color: $black;
+      background-color: $cancel;
+      color: $white;
     }
   }
   .hide {

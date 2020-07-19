@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -r dotenv/config app.js"
+    "start:server": "nodemon -r dotenv/config app.js",
+    "build:client": "npx webpack -w",
+    "start:client": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
     "nodemon": "^2.0.4",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
-    "style-loader": "^1.2.1"
+    "style-loader": "^1.2.1",
+    "webpack-dev-server": "^3.11.0"
   }
 }

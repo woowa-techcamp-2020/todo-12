@@ -1,5 +1,16 @@
 import Item from "../Item/Item.js";
-import { text } from "body-parser";
+
+const config = {
+  CONTENT_LIMIT: 500,
+  WARNING_TYPE: {
+    EMPTY: "EMPTY",
+    TOO_LONG: "TOO_LONG",
+  },
+  WARNING_MESSAGE: {
+    EMPTY: "내용을 입력해주세요.",
+    TOO_LONG: "500자 미만으로 입력해주세요.",
+  },
+};
 
 export default class {
   constructor(list) {
@@ -28,7 +39,7 @@ export default class {
           <textarea></textarea>
           <div class="textarea-msg">
             <span class="error-msg warning"></span>
-            <span><span class="char-counter"></span>/500</span>
+            <span><span class="char-counter">0</span>/${config.CONTENT_LIMIT}</span>
           </div>
         </div>
         <div class="item-create__btns">
@@ -39,11 +50,17 @@ export default class {
       <section class="items"></section>
     `;
 
+    const textarea = list.querySelector("textarea");
     const addItemToListBtn = list.querySelector("header .add-btn");
     const deleteListBtn = list.querySelector("header .del-btn");
     const createItemBtn = list.querySelector(".item-creation .add-btn");
     const cancelItemCreationBtn = list.querySelector(
       ".item-creation .cancel-btn"
+    );
+
+    textarea.addEventListener(
+      "input",
+      this.handleTextareaInputEvent.bind(this)
     );
 
     addItemToListBtn.addEventListener(
@@ -62,45 +79,65 @@ export default class {
     return list;
   }
 
+  handleTextareaInputEvent({ target: textarea }) {
+    const charCountContainer = textarea.parentElement.querySelector(
+      ".char-counter"
+    );
+    const content = textarea.value;
+    charCountContainer.innerText = content.length;
+    if (content.length === 1) {
+      this.removeWarning(textarea, config.WARNING_TYPE.TOO_LONG);
+    }
+    if (content.length > config.CONTENT_LIMIT) {
+      this.showWarning(textarea, config.WARNING_TYPE.TOO_LONG);
+    } else {
+      this.removeWarning(textarea, config.WARNING_TYPE.TOO_LONG);
+    }
+  }
+
   handleAddItemToListBtnClick({ currentTarget: btn }) {
     const list = btn.closest(".list");
     const itemCreationSection = list.querySelector("section.item-creation");
     itemCreationSection.classList.remove("hide");
   }
 
-  getContent(textarea) {
-    return textarea.vaule;
-  }
-
-  showEmptyContentWarning(textarea) {
+  showWarning(textarea, type) {
     textarea.classList.add("warning");
     const errorMsgContainer = textarea.parentElement.querySelector(
       ".error-msg"
     );
-    errorMsgContainer.innerText = "내용을 입력해주세요.";
+    const charCountContainer = textarea.parentElement.querySelector(
+      ".char-counter"
+    );
+    errorMsgContainer.innerText = config.WARNING_MESSAGE[type];
+    charCountContainer.classList.add("warning");
   }
 
-  removeEmptyContentWarning(textarea) {
+  removeWarning(textarea, type) {
     textarea.classList.remove("warning");
     const errorMsgContainer = textarea.parentElement.querySelector(
       ".error-msg"
     );
+    const charCountContainer = textarea.parentElement.querySelector(
+      ".char-counter"
+    );
     errorMsgContainer.innerText = "";
+    charCountContainer.classList.remove("warning");
   }
 
   handleCreateItemBtnClick({ currentTarget: btn }) {
     const list = btn.closest(".list");
     const textarea = list.querySelector("textarea");
-    const content = textarea.value;
-    textarea.value = "";
-    if (!content) {
-      this.showEmptyContentWarning(textarea);
+
+    if (!textarea.value) {
+      this.showWarning(textarea, config.WARNING_TYPE.EMPTY);
       return;
     } else {
-      this.removeEmptyContentWarning(textarea);
+      this.removeWarning(textarea, config.WARNING_TYPE.EMPTY);
     }
+
     const itemData = {
-      content,
+      content: textarea.value,
       position: 1,
       list_id: this.id,
       performer_id: 1,
@@ -112,14 +149,21 @@ export default class {
 
     const itemsSection = list.querySelector("section.items");
     itemsSection.insertAdjacentElement("afterbegin", itemNode);
+    textarea.value = "";
+  }
+
+  resetItemCreationSection(textarea) {
+    textarea.value = "";
+    this.removeEmptyContentWarning(textarea);
+    textarea.parentElement.querySelector(".char-counter").innerText = 0;
+    this.removeTooLongWarning(textarea);
   }
 
   handleCancelItemCreationBtnClick({ currentTarget: btn }) {
     const list = btn.closest(".list");
     const itemCreationSection = list.querySelector("section.item-creation");
     const textarea = itemCreationSection.querySelector("textarea");
-    textarea.value = "";
-    this.removeEmptyContentWarning(textarea);
+    this.resetItemCreationSection(textarea);
     itemCreationSection.classList.add("hide");
   }
 }

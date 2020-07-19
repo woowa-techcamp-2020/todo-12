@@ -28,16 +28,29 @@ export default class {
       </div>
       `;
 
-    item.addEventListener("dblclick", this.handleDoubleClick);
+    item.addEventListener("dblclick", this.handleDoubleClick.bind(this));
     const closeBtn = item.querySelector(".item__close-btn");
-    closeBtn.addEventListener("click", this.preDelete);
+    closeBtn.addEventListener("click", this.preDelete.bind(this));
+    const cancelBtn = item.querySelector(".cancel-btn");
+    cancelBtn.addEventListener(
+      "click",
+      this.handleUpdateCancelBtnClick.bind(this)
+    );
     return item;
   }
 
-  handleDoubleClick({ currentTarget: item }) {
-    const showingDiv = item.querySelector(".item__show");
+  handleUpdateCancelBtnClick({ currentTarget: cancelBtn }) {
+    const item = cancelBtn.closest(".item");
+    const contentDiv = item.querySelector(".item__show");
     const updateDiv = item.querySelector(".item__update");
-    showingDiv.classList.add("hide");
+    contentDiv.classList.remove("hide");
+    updateDiv.classList.add("hide");
+  }
+
+  handleDoubleClick({ currentTarget: item }) {
+    const contentDiv = item.querySelector(".item__show");
+    const updateDiv = item.querySelector(".item__update");
+    contentDiv.classList.add("hide");
     updateDiv.classList.remove("hide");
   }
 

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "nodemon -r dotenv/config app.js",
-    "build:client": "npx webpack -w",
     "start:client": "webpack-dev-server"
   },
   "repository": {

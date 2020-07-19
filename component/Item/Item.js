@@ -52,6 +52,8 @@ export default class {
     const updateDiv = item.querySelector(".item__update");
     contentDiv.classList.add("hide");
     updateDiv.classList.remove("hide");
+    const textarea = updateDiv.querySelector("textarea");
+    textarea.innerText = this.content;
   }
 
   fetchUpdate() {}

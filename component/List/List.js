@@ -50,12 +50,18 @@ export default class {
       <section class="items"></section>
     `;
 
+    const listTitle = list.querySelector(".list-title");
     const textarea = list.querySelector("textarea");
     const addItemToListBtn = list.querySelector("header .add-btn");
     const deleteListBtn = list.querySelector("header .del-btn");
     const createItemBtn = list.querySelector(".item-creation .add-btn");
     const cancelItemCreationBtn = list.querySelector(
       ".item-creation .cancel-btn"
+    );
+
+    listTitle.addEventListener(
+      "dblclick",
+      this.handleListTitleClick.bind(this)
     );
 
     textarea.addEventListener(
@@ -76,7 +82,54 @@ export default class {
       this.handleCancelItemCreationBtnClick.bind(this)
     );
 
+    deleteListBtn.addEventListener(
+      "click",
+      this.handleDeleteListBtnClick.bind(this)
+    );
+
     return list;
+  }
+
+  cancelTitleChange(input) {
+    const titleSpan = input.closest(".list-title");
+    input.remove();
+    titleSpan.innerText = this.title;
+  }
+
+  changeTitle(input) {
+    const newTitle = input.value;
+    const titleSpan = input.closest(".list-title");
+    input.remove();
+    titleSpan.innerText = newTitle;
+    this.title = newTitle;
+  }
+
+  handleSubmitTitle(input) {
+    if (input.value) this.changeTitle(input);
+    else this.cancelTitleChange(input);
+  }
+
+  handlePreSubmitTitle(e) {
+    const input = e.target;
+    // esc
+    if (e.keyCode === 27) {
+      this.cancelTitleChange(input);
+      return;
+    }
+
+    if (e.keyCode === 13) {
+      this.handleSubmitTitle(input);
+    }
+  }
+
+  handleListTitleClick({ target: titleSpan }) {
+    const currTitle = titleSpan.innerText;
+    titleSpan.innerText = "";
+    const titleInput = document.createElement("input");
+    titleInput.value = currTitle;
+    titleSpan.appendChild(titleInput);
+
+    titleInput.addEventListener("keyup", this.handlePreSubmitTitle.bind(this));
   }
 
   handleTextareaInputEvent({ target: textarea }) {
@@ -165,5 +218,11 @@ export default class {
     const textarea = itemCreationSection.querySelector("textarea");
     this.resetItemCreationSection(textarea);
     itemCreationSection.classList.add("hide");
+  }
+
+  handleDeleteListBtnClick({ target: btn }) {
+    const list = btn.closest(".list");
+    list.remove();
+    // api 연동
   }
 }

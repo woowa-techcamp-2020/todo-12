@@ -10,6 +10,9 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    input {
+      border-bottom: 1px solid $white;
+    }
   }
   section.item-creation {
     width: 100%;

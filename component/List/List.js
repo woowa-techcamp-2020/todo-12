@@ -1,3 +1,6 @@
+import Item from "../Item/Item.js";
+import { text } from "body-parser";
+
 export default class {
   constructor(list) {
     this.id = list.id;
@@ -21,7 +24,13 @@ export default class {
         </div>
       </header>
       <section class="item-creation hide">
-        <textarea></textarea>
+        <div class="textarea-wrapper">
+          <textarea></textarea>
+          <div class="textarea-msg">
+            <span class="error-msg warning"></span>
+            <span><span class="char-counter"></span>/500</span>
+          </div>
+        </div>
         <div class="item-create__btns">
           <button class="add-btn">Add</button>
           <button class="cancel-btn">Cancel</button>
@@ -41,6 +50,10 @@ export default class {
       "click",
       this.handleAddItemToListBtnClick.bind(this)
     );
+    createItemBtn.addEventListener(
+      "click",
+      this.handleCreateItemBtnClick.bind(this)
+    );
     cancelItemCreationBtn.addEventListener(
       "click",
       this.handleCancelItemCreationBtnClick.bind(this)
@@ -55,11 +68,58 @@ export default class {
     itemCreationSection.classList.remove("hide");
   }
 
+  getContent(textarea) {
+    return textarea.vaule;
+  }
+
+  showEmptyContentWarning(textarea) {
+    textarea.classList.add("warning");
+    const errorMsgContainer = textarea.parentElement.querySelector(
+      ".error-msg"
+    );
+    errorMsgContainer.innerText = "내용을 입력해주세요.";
+  }
+
+  removeEmptyContentWarning(textarea) {
+    textarea.classList.remove("warning");
+    const errorMsgContainer = textarea.parentElement.querySelector(
+      ".error-msg"
+    );
+    errorMsgContainer.innerText = "";
+  }
+
+  handleCreateItemBtnClick({ currentTarget: btn }) {
+    const list = btn.closest(".list");
+    const textarea = list.querySelector("textarea");
+    const content = textarea.value;
+    textarea.value = "";
+    if (!content) {
+      this.showEmptyContentWarning(textarea);
+      return;
+    } else {
+      this.removeEmptyContentWarning(textarea);
+    }
+    const itemData = {
+      content,
+      position: 1,
+      list_id: this.id,
+      performer_id: 1,
+      performer_username: "admin",
+    };
+
+    const itemInstance = new Item(itemData);
+    const itemNode = itemInstance.renderItem();
+
+    const itemsSection = list.querySelector("section.items");
+    itemsSection.insertAdjacentElement("afterbegin", itemNode);
+  }
+
   handleCancelItemCreationBtnClick({ currentTarget: btn }) {
     const list = btn.closest(".list");
     const itemCreationSection = list.querySelector("section.item-creation");
     const textarea = itemCreationSection.querySelector("textarea");
     textarea.value = "";
+    this.removeEmptyContentWarning(textarea);
     itemCreationSection.classList.add("hide");
   }
 }

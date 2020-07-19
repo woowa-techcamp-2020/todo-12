@@ -14,13 +14,28 @@
   section.item-creation {
     width: 100%;
     margin-bottom: 10px;
-    textarea {
-      resize: none;
+    .textarea-wrapper {
       width: 100%;
-      height: 80px;
-      background-color: $white;
-      border-radius: 5px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      textarea {
+        resize: none;
+        width: 100%;
+        height: 80px;
+        background-color: $white;
+        border-radius: 5px;
+        &.warning {
+          border: 1px solid $red;
+        }
+      }
+      .textarea-msg {
+        padding: 0 5px;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        .warning {
+          color: $red;
+        }
+      }
     }
     .item-create__btns {
       display: flex;

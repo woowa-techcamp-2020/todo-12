@@ -45,6 +45,14 @@ module.exports = {
       },
     ],
   },
+  mode: "development", // webpack-dev-server에만 쓰는 것은 아님. 더 알아보세요!
+  devtool: "inline-source-map",// webpack-dev-server에만 쓰는 것은 아님. 더 알아보세요!
+  devServer: {
+    contentBase: "./dist",
+    port: 7942,
+    hot: true,
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/app.html",

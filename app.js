@@ -10,7 +10,8 @@ const app = express();
 const PORT = 3000;
 
 const setHeader = function (req, res, next) {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 };
 

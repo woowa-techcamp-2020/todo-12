@@ -2,6 +2,7 @@ import dragNDrop from "../../utils/drag-drop/drag-drop.js";
 
 export default class {
   constructor(item) {
+    this.id = null;
     this.content = item.content;
     this.position = item.position;
     this.list_id = item.list_id;
@@ -12,6 +13,7 @@ export default class {
   renderItem() {
     const item = document.createElement("div");
     item.classList.add("item");
+    item.dataset.id = this.id;
     item.innerHTML = `
       <div class="item__show">
         <div class="item__col">logo</div>
@@ -40,6 +42,21 @@ export default class {
       this.handleUpdateCancelBtnClick.bind(this)
     );
     return item;
+  }
+
+  async fetchCreate() {
+    await fetch("http://localhost:3000/items", {
+      method: "POST",
+      body: JSON.stringify(this),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.id = data.id;
+      })
+      .catch((err) => console.error(err));
   }
 
   handleDragNDropInit(e) {

@@ -32,7 +32,8 @@ export default class {
       </div>
       `;
 
-    item.addEventListener("mousedown", this.handleDragNDropInit.bind(this));
+    // 더블클릭하는 경우와 드래그 하는 경우 분리 필요
+    // item.addEventListener("mousedown", this.handleDragNDropInit.bind(this));
     item.addEventListener("dblclick", this.handleDoubleClick.bind(this));
     const closeBtn = item.querySelector(".item__close-btn");
     closeBtn.addEventListener("click", this.preDelete.bind(this));
@@ -82,9 +83,22 @@ export default class {
 
   fetchUpdate() {}
 
-  preDelete() {
-    console.log(`item "${this.content}" : delete button clicked`);
+  async preDelete(e) {
+    // console.log(`item "${this.content}" : delete button clicked`);
+    // 삭제 컨펌 엘리먼트를 보여주고 삭제 확인을 선택한 경우에만, this.delete() 실행하도록 수정 필요
+    await this.fetchDelete();
+    this.delete(e);
   }
 
-  fetchDelete() {}
+  delete({ target: btn }) {
+    const item = btn.closest(".item");
+    item.remove();
+    // 위에 있는 아이템들의 position -= 1
+  }
+
+  async fetchDelete() {
+    await fetch(`http://localhost:3000/items/${this.id}`, {
+      method: "DELETE",
+    }).catch((err) => console.error(err));
+  }
 }

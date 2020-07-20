@@ -1,14 +1,24 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: "./src/app.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "src/app.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: "index.css"
+    }),
+    new CleanWebpackPlugin(),
+  ],
   module: {
     rules: [
       {
@@ -49,16 +59,7 @@ module.exports = {
   devtool: "inline-source-map",// webpack-dev-server에만 쓰는 것은 아님. 더 알아보세요!
   devServer: {
     contentBase: "./dist",
-    port: 7942,
+    port: 8080,
     hot: true,
   },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "src/app.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: "index.css"
-    })
-  ],
 };

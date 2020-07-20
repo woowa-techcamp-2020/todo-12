@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
     "start:server": "nodemon -r dotenv/config app.js",
     "start:client": "webpack-dev-server"
   },
@@ -35,6 +36,7 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.4",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",

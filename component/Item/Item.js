@@ -1,3 +1,5 @@
+import dragNDrop from "../../utils/drag-drop/drag-drop.js";
+
 export default class {
   constructor(item) {
     this.content = item.content;
@@ -28,6 +30,7 @@ export default class {
       </div>
       `;
 
+    item.addEventListener("mousedown", this.handleDragNDropInit.bind(this));
     item.addEventListener("dblclick", this.handleDoubleClick.bind(this));
     const closeBtn = item.querySelector(".item__close-btn");
     closeBtn.addEventListener("click", this.preDelete.bind(this));
@@ -37,6 +40,10 @@ export default class {
       this.handleUpdateCancelBtnClick.bind(this)
     );
     return item;
+  }
+
+  handleDragNDropInit(e) {
+    dragNDrop(e, "list");
   }
 
   handleUpdateCancelBtnClick({ currentTarget: cancelBtn }) {

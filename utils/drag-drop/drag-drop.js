@@ -40,11 +40,20 @@ export default function (event, droppableElementClass) {
     reset();
   };
 
+  const handleMouseMove = function (e) {
+    const elem = e.currentTarget;
+    const diffX = e.pageX - originMouseX;
+    const diffY = e.pageY - originMouseY;
+    elem.style.top = originTop + diffY + "px";
+    elem.style.left = originLeft + diffX + "px";
+  };
+
   const initDragNDropOnMouseDown = function () {
     selectedElem = event.currentTarget;
     setInitialCoordinates();
     createDraggableItem();
     leaveSelectedItem();
+    draggableItem.addEventListener("mousemove", handleMouseMove);
     draggableItem.addEventListener("mouseup", handleMouseUp);
   };
 

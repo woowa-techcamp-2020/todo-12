@@ -5,6 +5,8 @@ export default class {
     this.list_id = item.list_id;
     this.performer_id = item.performer_id;
     this.performer_username = item.performer_username;
+    this.clickedBefore = false;
+    this.timer = null;
   }
 
   renderItem() {
@@ -17,7 +19,7 @@ export default class {
           <span class="item__content">${this.content}</span>
           <span class="item__creator">Added by ${this.performer_username}</span>
         </div>
-        <div class="item__col"><span class="item__close-btn">X</span></div>
+        <div class="item__col"><button class="item__close-btn">X</button></div>
       </div>
       <div class="item__update hide">
         <textarea></textarea>
@@ -28,7 +30,7 @@ export default class {
       </div>
       `;
 
-    item.addEventListener("dblclick", this.handleDoubleClick.bind(this));
+    item.addEventListener("mousedown", this.handleMouseDown.bind(this));
     const closeBtn = item.querySelector(".item__close-btn");
     closeBtn.addEventListener("click", this.preDelete.bind(this));
     const cancelBtn = item.querySelector(".cancel-btn");
@@ -39,10 +41,27 @@ export default class {
     return item;
   }
 
+  handleMouseDown(e) {
+    if (["BUTTON", "TEXTAREA"].includes(e.target.tagName)) return;
+    if (Array.from(e.currentTarget.classList).includes("updating")) return;
+    // 더블클릭
+    if (this.clickedBefore) {
+      this.handleDoubleClick(e);
+      if (this.timer) clearTimeout(this.timer);
+    } else {
+      this.timer = setTimeout(() => {
+        this.clickedBefore = false;
+      }, 500);
+      // 드래그앤드랍
+    }
+    this.clickedBefore = !this.clickedBefore;
+  }
+
   handleUpdateCancelBtnClick({ currentTarget: cancelBtn }) {
     const item = cancelBtn.closest(".item");
     const contentDiv = item.querySelector(".item__show");
     const updateDiv = item.querySelector(".item__update");
+    item.classList.remove("updating");
     contentDiv.classList.remove("hide");
     updateDiv.classList.add("hide");
   }
@@ -50,6 +69,7 @@ export default class {
   handleDoubleClick({ currentTarget: item }) {
     const contentDiv = item.querySelector(".item__show");
     const updateDiv = item.querySelector(".item__update");
+    item.classList.add("updating");
     contentDiv.classList.add("hide");
     updateDiv.classList.remove("hide");
     const textarea = updateDiv.querySelector("textarea");

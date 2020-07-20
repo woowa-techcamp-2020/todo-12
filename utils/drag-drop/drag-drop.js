@@ -1,13 +1,25 @@
 export default function (event, droppableElementClass) {
-  const selectedElem = event.currentTarget;
-  let originTop, originLeft, originMouseX, originMouseY, draggableItem;
+  let selectedElem,
+    draggableItem,
+    originTop,
+    originLeft,
+    originMouseX,
+    originMouseY;
 
   const setInitialCoordinates = function () {
     originTop = selectedElem.offsetTop;
     originLeft = selectedElem.offsetLeft;
     originMouseX = event.pageX;
     originMouseY = event.pageY;
-    console.log(originTop, originLeft, originMouseX, originMouseY);
+  };
+
+  const reset = function () {
+    selectedElem = null;
+    draggableItem = null;
+    originTop = null;
+    originLeft = null;
+    originMouseX = null;
+    originMouseY = null;
   };
 
   const createDraggableItem = function () {
@@ -22,10 +34,18 @@ export default function (event, droppableElementClass) {
     selectedElem.classList.add("shadow");
   };
 
+  const handleMouseUp = function (e) {
+    e.currentTarget.remove();
+    selectedElem.classList.remove("shadow");
+    reset();
+  };
+
   const initDragNDropOnMouseDown = function () {
+    selectedElem = event.currentTarget;
     setInitialCoordinates();
     createDraggableItem();
     leaveSelectedItem();
+    draggableItem.addEventListener("mouseup", handleMouseUp);
   };
 
   initDragNDropOnMouseDown();

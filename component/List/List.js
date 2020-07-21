@@ -178,7 +178,7 @@ export default class {
     charCountContainer.classList.remove("warning");
   }
 
-  handleCreateItemBtnClick({ currentTarget: btn }) {
+  async handleCreateItemBtnClick({ currentTarget: btn }) {
     const list = btn.closest(".list");
     const textarea = list.querySelector("textarea");
 
@@ -198,8 +198,8 @@ export default class {
     };
 
     const itemInstance = new Item(itemData);
+    await itemInstance.fetchCreate();
     const itemNode = itemInstance.renderItem();
-
     const itemsSection = list.querySelector("section.items");
     itemsSection.insertAdjacentElement("afterbegin", itemNode);
     textarea.value = "";

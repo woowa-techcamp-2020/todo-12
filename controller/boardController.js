@@ -1,3 +1,4 @@
+const { parser } = require("../parser.js");
 const Board = require("../model/boardModel.js");
 
 exports.create = (req, res) => {
@@ -29,7 +30,8 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  Board.getAll(1, (err, data) => { // 첫번째 매개변수로 로그인 정보(user_id)
+  Board.getAll(1, (err, data) => {
+    // 첫번째 매개변수로 로그인 정보(user_id)
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving Boards.",
@@ -50,7 +52,10 @@ exports.findOne = (req, res) => {
           message: "Error retrieving Board with id " + req.params.boardId,
         });
       }
-    } else res.send(data);
+    } else {
+      const result = parser(data);
+      res.send(result);
+    }
   });
 };
 

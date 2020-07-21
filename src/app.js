@@ -1,6 +1,7 @@
 import "./scss/styles.scss";
 
 import User from "../component/User/User.js";
+import Board from "../component/Board/Board.js";
 import List from "../component/List/List.js";
 
 const listCreationBtn = document.querySelector(".listCreationBtn");
@@ -28,9 +29,10 @@ const handleUserClick = function (e) {
     .then((res) => res.json())
     .then((data) => {
       data.boards.forEach((boardData) => {
-        if (!boardData.board_id) return;
-        const boardIcon = `<div class="board-icon">${boardData.board_name}</div>`;
-        container.innerHTML += boardIcon;
+        if (!boardData.board_name) return;
+        const board = new Board(boardData);
+        const boardNode = board.render();
+        container.appendChild(boardNode);
       });
     });
 };

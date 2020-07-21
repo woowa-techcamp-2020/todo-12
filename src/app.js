@@ -19,6 +19,22 @@ const handleListCreationBtnClick = function () {
   document.body.appendChild(listNode);
 };
 
+const handleUserClick = function (e) {
+  const container = document.querySelector(".collection");
+  const userNode = e.currentTarget;
+  container.innerHTML = "";
+  container.appendChild(userNode);
+  fetch(`http://localhost:3000/users/${this.id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      data.boards.forEach((boardData) => {
+        if (!boardData.board_id) return;
+        const boardIcon = `<div class="board-icon">${boardData.board_name}</div>`;
+        container.innerHTML += boardIcon;
+      });
+    });
+};
+
 const fetchUser = function () {
   fetch(`http://localhost:3000/users`)
     .then((res) => res.json())
@@ -27,6 +43,7 @@ const fetchUser = function () {
         const user = new User(userData);
         const userNode = user.render();
         const container = document.querySelector(".collection");
+        userNode.addEventListener("click", handleUserClick.bind(user));
         container.appendChild(userNode);
       });
     });

@@ -1,10 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-const userController = require("./controller/userController.js");
-const boardController = require("./controller/boardController.js");
-const listController = require("./controller/listController.js");
-const itemController = require("./controller/itemController.js");
+const userRouter = require("./routes/users.js");
+const boardRouter = require("./routes/boards.js");
+const listRouter = require("./routes/lists.js");
+const itemRouter = require("./routes/items.js");
 
 const app = express();
 const PORT = 3000;
@@ -18,37 +18,13 @@ const setHeader = function (req, res, next) {
 
 app.use(setHeader);
 app.use(logger("dev"));
-
-// parse requests of content-type: application/json
 app.use(bodyParser.json());
-
-// parse requests of content-type: application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => res.send("hello"));
 
-// user
-app.get("/users", userController.findAll);
-app.post("/users", userController.create);
-app.get("/users/:userId", userController.findOne);
-app.put("/users/:userId", userController.update);
-app.delete("/users/:userId", userController.delete);
-
-// board
-app.get("/boards", boardController.findAll);
-app.post("/boards", boardController.create);
-app.get("/boards/:boardId", boardController.findOne);
-app.put("/boards/:boardId", boardController.update);
-app.delete("/boards/:boardId", boardController.delete);
-
-// list
-app.post("/lists", listController.create);
-app.put("/lists/:listId", listController.update);
-app.delete("/lists/:listId", listController.delete);
-
-// item
-app.post("/items", itemController.create);
-app.put("/items/:itemId", itemController.update);
-app.delete("/items/:itemId", itemController.delete);
+app.use("/users", userRouter);
+app.use("/boards", boardRouter);
+app.use("/lists", listRouter);
+app.use("/items", itemRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

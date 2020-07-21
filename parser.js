@@ -29,8 +29,8 @@ exports.parser = (data) => {
     };
 
     lastList.items.push(item);
-    result.lists.push(lastList);
   }
+  result.lists.push(lastList);
   // console.log(result);
   return result;
 };

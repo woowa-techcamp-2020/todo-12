@@ -1,4 +1,5 @@
 const User = require("../model/userModel.js");
+const { userBoardsParser } = require("../parser.js");
 
 // Create and Save a new Customer
 exports.create = (req, res) => {
@@ -49,7 +50,10 @@ exports.findOne = (req, res) => {
           message: "Error retrieving User with id " + req.params.userId,
         });
       }
-    } else res.send(data);
+    } else {
+      const result = userBoardsParser(data);
+      res.send(result);
+    }
   });
 };
 

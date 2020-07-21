@@ -1,4 +1,4 @@
-const { parser } = require("../parser.js");
+const { boardDetailParser } = require("../parser.js");
 const Board = require("../model/boardModel.js");
 
 exports.create = (req, res) => {
@@ -53,7 +53,7 @@ exports.findOne = (req, res) => {
         });
       }
     } else {
-      const result = parser(data);
+      const result = boardDetailParser(data);
       res.send(result);
     }
   });

@@ -1,4 +1,4 @@
-exports.parser = (data) => {
+exports.boardDetailParser = (data) => {
   if (data.length === 0) return;
   result = {};
   let lastList = {};
@@ -31,6 +31,30 @@ exports.parser = (data) => {
     lastList.items.push(item);
   }
   result.lists.push(lastList);
-  // console.log(result);
+  return result;
+};
+
+exports.userBoardsParser = (data) => {
+  if (data.length === 0) return;
+  result = {};
+  let lastBoard = {};
+  result.user_id = data[0]["user_id"];
+  result.user_name = data[0]["user_name"];
+  result.boards = [];
+
+  for (let idx = 0; idx < data.length; idx++) {
+    if (lastBoard.board_id !== data[idx]["board_id"]) {
+      if (Object.keys(lastBoard).length > 0) {
+        result.boards.push(lastBoard);
+        lastBoard = {};
+      }
+
+      lastBoard = {
+        board_id: data[idx]["board_id"],
+        board_name: data[idx]["board_name"],
+      };
+    }
+  }
+  result.boards.push(lastBoard);
   return result;
 };

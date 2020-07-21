@@ -58,29 +58,29 @@ export default function (event, droppableElementClass) {
 
     draggableItem.classList.add("hide")
 
-
-
-
-    const el = document.elementFromPoint(draggableItemCenter.x, draggableItemCenter.y).closest('.item');
+    const el = document.elementFromPoint(draggableItemCenter.x, draggableItemCenter.y).closest('.item')
+    const li = document.elementFromPoint(draggableItemCenter.x, draggableItemCenter.y).closest('.list')
+    // const emptyListNode = e.target.closest('.list')
     
-
-    // console.log([...selectedElem.parentElement.childNodes].filter(v => v === selectedElem));
-    // console.log([...selectedElem.parentElement.childNodes].indexOf([...selectedElem.parentElement.childNodes].find(v => v === selectedElem)))
     const itemsArr = [...selectedElem.parentElement.childNodes];
+    const elItemsArr = el ? [...el.parentElement.childNodes] : [];
     const selectedElemIdx = itemsArr.indexOf(selectedElem);
-    const elIdx = itemsArr.indexOf(el);
-    console.log('el: ', elIdx);
-    console.log('sel: ', selectedElemIdx)
+    const elIdx = elItemsArr.indexOf(el);
+    // console.log('elIdx: ', elIdx);
+    // console.log('selIdx: ', selectedElemIdx)
+    // console.log('elItemsArr: ', elItemsArr)
 
-    if(el) {
+    if(elIdx > 0) {
       if(selectedElemIdx > elIdx) {
-        selectedElem.insertAdjacentElement('afterend', el)
+        el.insertAdjacentElement('beforebegin', selectedElem);
       } else if(selectedElemIdx < elIdx) {
-        selectedElem.insertAdjacentElement('beforebegin', el);
-      } else if(el < 0) {
-        console.log('err')
+        el.insertAdjacentElement('afterend', selectedElem);
+      } 
+    } else {
+        if(li && li !== selectedElem.parentElement) {
+          li.appendChild(selectedElem)
+        } 
       }
-    }
   
     draggableItem.classList.remove("hide")
   };

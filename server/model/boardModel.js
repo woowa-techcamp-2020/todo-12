@@ -8,19 +8,6 @@ const Board = function (board) {
   this.user_id = board.user_id;
 };
 
-Board.create = (newBoard, result) => {
-  sql.query("INSERT INTO boards SET ?", newBoard, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created board: ", { id: res.insertId, ...newBoard });
-    result(null, { id: res.insertId, ...newBoard });
-  });
-};
-
 Board.getAll = (userId, result) => {
   sql.query(`SELECT * FROM boards WHERE user_id = ${userId}`, (err, res) => {
     if (err) {

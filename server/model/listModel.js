@@ -8,19 +8,6 @@ const List = function (list) {
   this.board_id = list.board_id;
 };
 
-List.create = (newList, result) => {
-  sql.query("INSERT INTO lists SET ?", newList, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created list: ", { id: res.insertId, ...newList });
-    result(null, { id: res.insertId, ...newList });
-  });
-};
-
 List.update = (listId, updatedList, result) => {
   sql.query(
     `UPDATE lists SET title = ?, position = ?, updated_at = ? WHERE id = ${listId}`,

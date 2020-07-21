@@ -1,4 +1,5 @@
 const List = require("../model/listModel.js");
+const query = require("../query.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -10,7 +11,6 @@ exports.create = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a List
   const list = new List({
     title: req.body.title,
     position: req.body.position,
@@ -19,8 +19,7 @@ exports.create = (req, res) => {
     board_id: req.body.board_id,
   });
 
-  // Save List in the database
-  List.create(list, (err, data) => {
+  query.create("list", list, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the List.",

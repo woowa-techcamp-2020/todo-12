@@ -1,5 +1,6 @@
-const { boardDetailParser } = require("../parser.js");
 const Board = require("../model/boardModel.js");
+const query = require("../query.js");
+const { boardDetailParser } = require("../parser.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -11,7 +12,6 @@ exports.create = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a Board
   const board = new Board({
     name: req.body.name,
     created_at: timestamp,
@@ -19,8 +19,7 @@ exports.create = (req, res) => {
     user_id: req.body.user_id, // 로그인 정보로 변경할 것
   });
 
-  // Save Board in the database
-  Board.create(board, (err, data) => {
+  query.create("board", board, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Board.",

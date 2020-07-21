@@ -1,4 +1,5 @@
 const Item = require("../model/itemModel.js");
+const query = require("../query.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -10,7 +11,6 @@ exports.create = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a Item
   const item = new Item({
     content: req.body.content,
     position: req.body.position,
@@ -20,8 +20,7 @@ exports.create = (req, res) => {
     performer_id: req.body.performer_id,
   });
 
-  // Save Item in the database
-  Item.create(item, (err, data) => {
+  query.create("item", item, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Item.",

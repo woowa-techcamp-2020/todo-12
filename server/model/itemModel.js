@@ -10,19 +10,6 @@ const Item = function (item) {
   this.performer_id = item.performer_id;
 };
 
-Item.create = (newItem, result) => {
-  sql.query("INSERT INTO items SET ?", newItem, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created item: ", { id: res.insertId, ...newItem });
-    result(null, { id: res.insertId, ...newItem });
-  });
-};
-
 Item.update = (itemId, updatedItem, result) => {
   sql.query(
     `UPDATE items SET content = ?, position = ?, updated_at = ? WHERE id = ${itemId}`,

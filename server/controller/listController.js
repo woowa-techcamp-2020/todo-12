@@ -60,7 +60,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  List.delete(req.params.listId, (err, data) => {
+  query.delete("list", req.params.listId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

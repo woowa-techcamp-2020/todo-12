@@ -32,24 +32,4 @@ List.update = (listId, updatedList, result) => {
   );
 };
 
-List.delete = (listId, result) => {
-  sql.query(`DELETE FROM lists WHERE id = ${listId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (!res.affectedRows) {
-      console.log("not_found");
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log(`listId ${listId} was deleted`);
-    result(null, { deletedId: listId });
-    return;
-  });
-};
-
 module.exports = List;

@@ -61,7 +61,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Item.delete(req.params.itemId, (err, data) => {
+  query.delete("item", req.params.itemId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

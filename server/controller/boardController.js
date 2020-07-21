@@ -89,7 +89,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Board.delete(req.params.boardId, (err, data) => {
+  query.delete("board", req.params.boardId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

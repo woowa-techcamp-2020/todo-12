@@ -68,24 +68,4 @@ User.update = (userId, updatedUser, result) => {
   );
 };
 
-User.delete = (userId, result) => {
-  sql.query(`DELETE FROM users WHERE id = ${userId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (!res.affectedRows) {
-      console.log("not_found");
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log(`userid ${userId} was deleted`);
-    result(null, { deletedId: userId });
-    return;
-  });
-};
-
 module.exports = User;

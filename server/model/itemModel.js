@@ -34,24 +34,4 @@ Item.update = (itemId, updatedItem, result) => {
   );
 };
 
-Item.delete = (itemId, result) => {
-  sql.query(`DELETE FROM items WHERE id = ${itemId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (!res.affectedRows) {
-      console.log("not_found");
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log(`itemId ${itemId} was deleted`);
-    result(null, { deletedId: itemId });
-    return;
-  });
-};
-
 module.exports = Item;

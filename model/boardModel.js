@@ -60,7 +60,7 @@ Board.findById = (boardId, result) => {
       LEFT JOIN users u
         ON i.performer_id = u.id
       WHERE b.id = ${boardId}
-      ORDER BY list_position, item_position_in_list;
+      ORDER BY list_position, item_position_in_list DESC;
     `,
     (err, res) => {
       if (err) {

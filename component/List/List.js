@@ -30,20 +30,20 @@ export default class {
           <span class="list-title">${this.title}</span>
         </div>
         <div class="col">
-          <span class="add-btn">➕</span>
-          <span class="del-btn">❌</span>
+          <button class="add-btn">➕</button>
+          <button class="del-btn">❌</button>
         </div>
       </header>
       <section class="item-creation hide">
         <div class="textarea-wrapper">
-          <textarea></textarea>
+          <textarea placeholder="메모를 입력하세요." maxlength="500"></textarea>
           <div class="textarea-msg">
             <span class="error-msg warning"></span>
             <span><span class="char-counter">0</span>/${config.CONTENT_LIMIT}</span>
           </div>
         </div>
         <div class="item-create__btns">
-          <button class="add-btn">Add</button>
+          <button class="add-btn" disabled>Add</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </section>
@@ -133,15 +133,23 @@ export default class {
   }
 
   handleTextareaInputEvent({ target: textarea }) {
+    const addBtn = textarea.closest("section").querySelector(".add-btn");
     const charCountContainer = textarea.parentElement.querySelector(
       ".char-counter"
     );
     const content = textarea.value;
     charCountContainer.innerText = content.length;
+
+    if (content.length === 0) {
+      addBtn.setAttribute("disabled", "");
+    } else {
+      addBtn.removeAttribute("disabled");
+    }
+
     if (content.length === 1) {
       this.removeWarning(textarea, config.WARNING_TYPE.TOO_LONG);
     }
-    if (content.length > config.CONTENT_LIMIT) {
+    if (content.length >= config.CONTENT_LIMIT) {
       this.showWarning(textarea, config.WARNING_TYPE.TOO_LONG);
     } else {
       this.removeWarning(textarea, config.WARNING_TYPE.TOO_LONG);

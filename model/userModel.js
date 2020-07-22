@@ -7,7 +7,7 @@ const User = function (user) {
 };
 
 User.create = (newUser, result) => {
-  sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+  sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -20,7 +20,7 @@ User.create = (newUser, result) => {
 };
 
 User.getAll = (result) => {
-  sql.query("SELECT * FROM users", (err, res) => {
+  sql.query("SELECT * FROM user", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -36,7 +36,7 @@ User.findById = (userId, result) => {
   sql.query(
     `
     SELECT u.id as user_id, u.name as user_name, b.id as board_id, b.name as board_name
-    FROM users u LEFT JOIN boards b ON u.id = b.user_id WHERE u.id = ${userId}
+    FROM user u LEFT JOIN board b ON u.id = b.user_id WHERE u.id = ${userId}
   `,
     (err, res) => {
       if (err) {
@@ -59,7 +59,7 @@ User.findById = (userId, result) => {
 
 User.update = (userId, updatedUser, result) => {
   sql.query(
-    `UPDATE users SET ? WHERE id = ${userId}`,
+    `UPDATE user SET ? WHERE id = ${userId}`,
     updatedUser,
     (err, res) => {
       if (err) {
@@ -82,7 +82,7 @@ User.update = (userId, updatedUser, result) => {
 };
 
 User.delete = (userId, result) => {
-  sql.query(`DELETE FROM users WHERE id = ${userId}`, (err, res) => {
+  sql.query(`DELETE FROM user WHERE id = ${userId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

@@ -9,7 +9,7 @@ const Board = function (board) {
 };
 
 Board.create = (newBoard, result) => {
-  sql.query("INSERT INTO boards SET ?", newBoard, (err, res) => {
+  sql.query("INSERT INTO board SET ?", newBoard, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -22,7 +22,7 @@ Board.create = (newBoard, result) => {
 };
 
 Board.getAll = (userId, result) => {
-  sql.query(`SELECT * FROM boards WHERE user_id = ${userId}`, (err, res) => {
+  sql.query(`SELECT * FROM board WHERE user_id = ${userId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -52,12 +52,12 @@ Board.findById = (boardId, result) => {
         i.content as item_content,
         i.position as item_position_in_list,
         u.name as item_performer_name
-      FROM boards b
-      LEFT JOIN lists l
+      FROM board b
+      LEFT JOIN list l
         ON b.id = l.board_id
-      LEFT JOIN items i
+      LEFT JOIN item i
         ON l.id = i.list_id
-      LEFT JOIN users u
+      LEFT JOIN user u
         ON i.performer_id = u.id
       WHERE b.id = ${boardId}
       ORDER BY list_position, item_position_in_list DESC;
@@ -83,7 +83,7 @@ Board.findById = (boardId, result) => {
 
 Board.update = (boardId, updatedBoard, result) => {
   sql.query(
-    `UPDATE boards SET name = ?, updated_at = ? WHERE id = ${boardId}`,
+    `UPDATE board SET name = ?, updated_at = ? WHERE id = ${boardId}`,
     [updatedBoard.name, updatedBoard.updated_at],
     (err, res) => {
       if (err) {
@@ -106,7 +106,7 @@ Board.update = (boardId, updatedBoard, result) => {
 };
 
 Board.delete = (boardId, result) => {
-  sql.query(`DELETE FROM boards WHERE id = ${boardId}`, (err, res) => {
+  sql.query(`DELETE FROM board WHERE id = ${boardId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

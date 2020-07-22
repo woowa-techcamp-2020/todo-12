@@ -9,7 +9,7 @@ const List = function (list) {
 };
 
 List.create = (newList, result) => {
-  sql.query("INSERT INTO lists SET ?", newList, (err, res) => {
+  sql.query("INSERT INTO list SET ?", newList, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -23,7 +23,7 @@ List.create = (newList, result) => {
 
 List.update = (listId, updatedList, result) => {
   sql.query(
-    `UPDATE lists SET title = ?, position = ?, updated_at = ? WHERE id = ${listId}`,
+    `UPDATE list SET title = ?, position = ?, updated_at = ? WHERE id = ${listId}`,
     [updatedList.title, updatedList.position, updatedList.updated_at],
     (err, res) => {
       if (err) {
@@ -46,7 +46,7 @@ List.update = (listId, updatedList, result) => {
 };
 
 List.delete = (listId, result) => {
-  sql.query(`DELETE FROM lists WHERE id = ${listId}`, (err, res) => {
+  sql.query(`DELETE FROM list WHERE id = ${listId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

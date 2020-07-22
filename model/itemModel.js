@@ -11,7 +11,7 @@ const Item = function (item) {
 };
 
 Item.create = (newItem, result) => {
-  sql.query("INSERT INTO items SET ?", newItem, (err, res) => {
+  sql.query("INSERT INTO item SET ?", newItem, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -25,7 +25,7 @@ Item.create = (newItem, result) => {
 
 Item.update = (itemId, updatedItem, result) => {
   sql.query(
-    `UPDATE items SET content = ?, position = ?, updated_at = ? WHERE id = ${itemId}`,
+    `UPDATE item SET content = ?, position = ?, updated_at = ? WHERE id = ${itemId}`,
     [updatedItem.content, updatedItem.position, updatedItem.updated_at],
     (err, res) => {
       if (err) {
@@ -48,7 +48,7 @@ Item.update = (itemId, updatedItem, result) => {
 };
 
 Item.delete = (itemId, result) => {
-  sql.query(`DELETE FROM items WHERE id = ${itemId}`, (err, res) => {
+  sql.query(`DELETE FROM item WHERE id = ${itemId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

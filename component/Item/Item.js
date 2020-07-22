@@ -71,6 +71,8 @@ export default class {
       this.timer = setTimeout(() => {
         this.clickedBefore = false;
       }, 500);
+
+      console.log(e.target.closest('item'))
       dragNDrop(e, "list");
     }
     this.clickedBefore = !this.clickedBefore;

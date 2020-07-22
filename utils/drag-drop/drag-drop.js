@@ -55,22 +55,26 @@ export default function (event, droppableElementClass) {
 
     const targetItemElem = document.elementFromPoint(draggableItemCenter.x, draggableItemCenter.y).closest('.item');
     const targetListElem = document.elementFromPoint(draggableItemCenter.x, draggableItemCenter.y).closest('.list');
-
+    
     draggableItem.classList.remove("hide")
 
     const targetListItems = targetItemElem ? [...targetItemElem.parentElement.childNodes] : [];
-    const selectedElemIdx = [...selectedElem.parentElement.childNodes].indexOf(selectedElem);
     const targetItemElemIdx = targetListItems.indexOf(targetItemElem);
+    const selectedElemIdx = [...selectedElem.parentElement.childNodes].indexOf(selectedElem); // 전역
 
+    // console.log('targetItemElemIdx: ', targetItemElemIdx)
+    // console.log('selectedElemIdx: ', selectedElemIdx)
+    
     if(targetItemElemIdx >= 0) {
-      if(selectedElemIdx > targetItemElemIdx) {
+      if(selectedElemIdx >= targetItemElemIdx) {  // 같은 경우
         targetItemElem.insertAdjacentElement('beforebegin', selectedElem);
       } else if(selectedElemIdx < targetItemElemIdx) {
         targetItemElem.insertAdjacentElement('afterend', selectedElem);
       } 
-    } else if(targetListElem && targetListElem !== selectedElem.parentElement) {
+    } 
+    else if(targetListElem && targetListElem !== selectedElem.parentElement) {
         targetListElem.appendChild(selectedElem)
-    }
+    } 
   }
 
 

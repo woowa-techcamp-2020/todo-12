@@ -1,5 +1,5 @@
-import UserWrapper from "../UserWrapper/UserWrapper.js";
-import BoardWrapper from "../BoardWrapper/BoardWrapper.js";
+import UserWrapper from "./UserWrapper/UserWrapper.js";
+import BoardWrapper from "./BoardWrapper/BoardWrapper.js";
 
 export default class Header {
   constructor({ target }) {

@@ -72,7 +72,7 @@ export default class {
         this.clickedBefore = false;
       }, 500);
 
-      console.log(e.target.closest('item'))
+      console.log(e.target.closest("item"));
       dragNDrop(e, "list");
     }
     this.clickedBefore = !this.clickedBefore;

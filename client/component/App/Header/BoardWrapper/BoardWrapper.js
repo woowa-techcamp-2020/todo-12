@@ -1,5 +1,5 @@
-import BoardSelection from "../BoardSelection/BoardSelection.js";
-import BoardSelected from "../BoardSelected/BoardSelected.js";
+import BoardSelection from "./BoardSelection/BoardSelection.js";
+import BoardSelected from "./BoardSelected/BoardSelected.js";
 
 export default class BoardWrapper {
   constructor({ target }) {

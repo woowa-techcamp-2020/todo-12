@@ -1,5 +1,5 @@
-import UserSelection from "../UserSelection/UserSelection.js";
-import UserSelected from "../UserSelected/UserSelected.js";
+import UserSelection from "./UserSelection/UserSelection.js";
+import UserSelected from "./UserSelected/UserSelected.js";
 
 export default class UserWrapper {
   constructor({ target }) {

@@ -20,7 +20,7 @@ export default class {
       <div class="item__show">
         <div class="item__col">logo</div>
         <div class="item__col">
-          <span class="item__content">${this.content}</span>
+          <div class="item__content">${this.content}</div>
           <span class="item__creator">Added by ${this.performer_username}</span>
         </div>
         <div class="item__col"><button class="item__close-btn">X</button></div>

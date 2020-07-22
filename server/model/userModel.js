@@ -44,28 +44,4 @@ User.findById = (userId, result) => {
   );
 };
 
-User.update = (userId, updatedUser, result) => {
-  sql.query(
-    `UPDATE users SET ? WHERE id = ${userId}`,
-    updatedUser,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (!res.affectedRows) {
-        console.log("not_found");
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log(`userId ${userId} was updated`);
-      result(null, { updatedId: userId });
-      return;
-    }
-  );
-};
-
 module.exports = User;

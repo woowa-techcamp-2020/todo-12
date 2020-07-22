@@ -62,12 +62,12 @@ exports.update = (req, res) => {
   }
 
   // Create a Customer
-  const user = new User({
+  const user = {
     name: req.body.name,
-    avatar: req.body.avatar,
-  });
+    avatar: req.body.avatar || null,
+  };
 
-  User.update(req.params.userId, user, (err, data) => {
+  query.update("user", req.params.userId, user, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

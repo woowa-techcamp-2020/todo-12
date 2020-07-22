@@ -65,15 +65,11 @@ exports.update = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
-  const board = new Board({
+  const board = {
     name: req.body.name,
-    updated_at: timestamp,
-  });
+  };
 
-  Board.update(req.params.boardId, board, (err, data) => {
+  query.update("board", req.params.boardId, board, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

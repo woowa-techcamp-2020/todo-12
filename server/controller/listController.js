@@ -35,16 +35,12 @@ exports.update = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
-  const list = new List({
+  const list = {
     title: req.body.title,
-    updated_at: timestamp,
     position: req.body.position,
-  });
+  };
 
-  List.update(req.params.listId, list, (err, data) => {
+  List.update("list", req.params.listId, list, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

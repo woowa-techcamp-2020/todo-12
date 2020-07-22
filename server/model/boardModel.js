@@ -68,28 +68,4 @@ Board.findById = (boardId, result) => {
   );
 };
 
-Board.update = (boardId, updatedBoard, result) => {
-  sql.query(
-    `UPDATE boards SET name = ?, updated_at = ? WHERE id = ${boardId}`,
-    [updatedBoard.name, updatedBoard.updated_at],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (!res.affectedRows) {
-        console.log("not_found");
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log(`boardId ${boardId} was updated`);
-      result(null, { updatedId: boardId });
-      return;
-    }
-  );
-};
-
 module.exports = Board;

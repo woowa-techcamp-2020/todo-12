@@ -36,16 +36,12 @@ exports.update = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
-  const item = new Item({
+  const item = {
     content: req.body.content,
-    updated_at: timestamp,
     position: req.body.position,
-  });
+  };
 
-  Item.update(req.params.itemId, item, (err, data) => {
+  query.update("item", req.params.itemId, item, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

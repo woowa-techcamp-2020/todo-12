@@ -1,4 +1,7 @@
 import "./scss/styles.scss";
+import App from "../component/App/App.js";
+
+new App(document.querySelector("#app"));
 
 // import User from "../component/User/User.js";
 // import Board from "../component/Board/Board.js";

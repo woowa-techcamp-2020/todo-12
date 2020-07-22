@@ -1,6 +1,5 @@
-const Board = require("../model/boardModel.js");
-const query = require("../query.js");
-const { boardDetailParser } = require("../parser.js");
+const Board = require("../model/board.js");
+const { boardDetailParser } = require("../utils/parser.js");
 
 exports.create = (req, res) => {
   if (!req.body) {

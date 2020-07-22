@@ -1,6 +1,5 @@
-const User = require("../model/userModel.js");
-const query = require("../query.js");
-const { userBoardsParser } = require("../parser.js");
+const User = require("../model/user.js");
+const { userBoardsParser } = require("../utils/parser.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -14,7 +13,7 @@ exports.create = (req, res) => {
     avatar: req.body.avatar,
   });
 
-  query.create("user", user, (err, data) => {
+  User.create("user", user, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the User.",
@@ -23,7 +22,6 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
   User.getAll((err, data) => {
     if (err)
@@ -34,7 +32,6 @@ exports.findAll = (req, res) => {
   });
 };
 
-// Find a single Customer with a customerId
 exports.findOne = (req, res) => {
   User.findById(req.params.userId, (err, data) => {
     if (err) {

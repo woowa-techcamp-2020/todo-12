@@ -1,23 +1,19 @@
-const User = require("../model/userModel.js");
-const { userBoardsParser } = require("../parser.js");
+const User = require("../model/user.js");
+const { userBoardsParser } = require("../utils/parser.js");
 
-// Create and Save a new Customer
 exports.create = (req, res) => {
-  // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
   }
 
-  // Create a Customer
   const user = new User({
     name: req.body.name,
     avatar: req.body.avatar,
   });
 
-  // Save Customer in the database
-  User.create(user, (err, data) => {
+  User.create("user", user, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the User.",
@@ -26,7 +22,6 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
   User.getAll((err, data) => {
     if (err)
@@ -37,7 +32,6 @@ exports.findAll = (req, res) => {
   });
 };
 
-// Find a single Customer with a customerId
 exports.findOne = (req, res) => {
   User.findById(req.params.userId, (err, data) => {
     if (err) {
@@ -65,12 +59,12 @@ exports.update = (req, res) => {
   }
 
   // Create a Customer
-  const user = new User({
+  const user = {
     name: req.body.name,
-    avatar: req.body.avatar,
-  });
+    avatar: req.body.avatar || null,
+  };
 
-  User.update(req.params.userId, user, (err, data) => {
+  query.update("user", req.params.userId, user, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -86,7 +80,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  User.delete(req.params.userId, (err, data) => {
+  query.delete("user", req.params.userId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

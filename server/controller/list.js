@@ -1,4 +1,4 @@
-const Item = require("../model/itemModel.js");
+const List = require("../model/list.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -10,21 +10,18 @@ exports.create = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a Item
-  const item = new Item({
-    content: req.body.content,
+  const list = new List({
+    title: req.body.title,
     position: req.body.position,
     created_at: timestamp,
     updated_at: timestamp,
-    list_id: req.body.list_id,
-    performer_id: req.body.performer_id,
+    board_id: req.body.board_id,
   });
 
-  // Save Item in the database
-  Item.create(item, (err, data) => {
+  query.create("list", list, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Item.",
+        message: err.message || "Some error occurred while creating the List.",
       });
     else res.send(data);
   });
@@ -37,24 +34,20 @@ exports.update = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
-  const item = new Item({
-    content: req.body.content,
-    updated_at: timestamp,
+  const list = {
+    title: req.body.title,
     position: req.body.position,
-  });
+  };
 
-  Item.update(req.params.itemId, item, (err, data) => {
+  List.update("list", req.params.listId, list, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Item with id ${req.params.itemId}.`,
+          message: `Not found List with id ${req.params.listId}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Item with id " + req.params.itemId,
+          message: "Error retrieving List with id " + req.params.listId,
         });
       }
     } else res.send(data);
@@ -62,15 +55,15 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Item.delete(req.params.itemId, (err, data) => {
+  query.delete("list", req.params.listId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Item with id ${req.params.itemId}.`,
+          message: `Not found List with id ${req.params.listId}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Item with id " + req.params.itemId,
+          message: "Error retrieving List with id " + req.params.listId,
         });
       }
     } else res.send(data);

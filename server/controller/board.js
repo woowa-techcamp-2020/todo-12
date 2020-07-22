@@ -1,5 +1,5 @@
-const { boardDetailParser } = require("../parser.js");
-const Board = require("../model/boardModel.js");
+const Board = require("../model/board.js");
+const { boardDetailParser } = require("../utils/parser.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -11,7 +11,6 @@ exports.create = (req, res) => {
   const currentTime = new Date();
   const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
-  // Create a Board
   const board = new Board({
     name: req.body.name,
     created_at: timestamp,
@@ -19,8 +18,7 @@ exports.create = (req, res) => {
     user_id: req.body.user_id, // 로그인 정보로 변경할 것
   });
 
-  // Save Board in the database
-  Board.create(board, (err, data) => {
+  query.create("board", board, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Board.",
@@ -66,15 +64,11 @@ exports.update = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
-  const board = new Board({
+  const board = {
     name: req.body.name,
-    updated_at: timestamp,
-  });
+  };
 
-  Board.update(req.params.boardId, board, (err, data) => {
+  query.update("board", req.params.boardId, board, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -90,7 +84,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Board.delete(req.params.boardId, (err, data) => {
+  query.delete("board", req.params.boardId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

@@ -1,10 +1,10 @@
-class App {
+import Header from "../Header/Header.js";
+import Main from "../Main/Main.js";
+
+export default class App {
   constructor(target) {
     this.target = target;
-    console.log(this.target);
-    // this.header = new Headers();
-    // this.main = new Main();
+    this.main = new Main({ target });
+    this.header = new Header({ target });
   }
 }
-
-module.exports = App;

@@ -1,3 +1,4 @@
+const sql = require("../db.js");
 const BaseModel = require("./base.js");
 
 class User extends BaseModel {
@@ -7,7 +8,7 @@ class User extends BaseModel {
     this.avatar = user.avatar || null;
   }
 
-  getAll(result) {
+  static getAll(result) {
     sql.query("SELECT * FROM user", (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -20,7 +21,7 @@ class User extends BaseModel {
     });
   }
 
-  findById(userId, result) {
+  static findById(userId, result) {
     sql.query(
       `
       SELECT u.id as user_id, u.name as user_name, b.id as board_id, b.name as board_name

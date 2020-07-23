@@ -19,6 +19,11 @@ export default class Item {
 
   openUpdateSection() {
     this.item.querySelector(".usual").classList.add("hide");
+    const content = this.item.querySelector(".usual").querySelector(".content")
+      .innerText;
+    this.item
+      .querySelector(".update")
+      .querySelector("textarea").value = content;
     this.item.querySelector(".update").classList.remove("hide");
   }
 

@@ -1,4 +1,6 @@
 const List = require("../model/list.js");
+const Log = require("../model/log.js")
+
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -18,12 +20,31 @@ exports.create = (req, res) => {
     board_id: req.body.board_id,
   });
 
-  query.create("list", list, (err, data) => {
+  List.create("list", list, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the List.",
       });
-    else res.send(data);
+    else {
+
+      const log = new Log({
+        target_type: "list",
+        action: "create",
+        target_title: list.title,
+        created_at: timestamp,
+        board_id: list.board_id,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+
+      res.send(data);
+    }
   });
 };
 
@@ -55,7 +76,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  query.delete("list", req.params.listId, (err, data) => {
+  List.delete("list", req.params.listId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

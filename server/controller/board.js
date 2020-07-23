@@ -1,6 +1,8 @@
 const Board = require("../model/board.js");
 const Log = require("../model/log.js");
 const { boardDetailParser } = require("../utils/parser.js");
+const currentTime = new Date();
+const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -9,23 +11,41 @@ exports.create = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
   const board = new Board({
     name: req.body.name,
     created_at: timestamp,
     updated_at: timestamp,
-    user_id: req.body.user_id, // 로그인 정보로 변경할 것
+    user_id: 1, // 로그인 정보로 변경할 것
   });
 
-  query.create("board", board, (err, data) => {
+
+  Board.create("board", board, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Board.",
       });
-    else res.send(data);
-  });
+    else {
+
+      const log = new Log({
+        target_type: "board",
+        action: "create",
+        target_title: board.name,
+        created_at: timestamp,
+        board_id: data.id,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+
+      res.send(data)
+    }
+  })
+
 };
 
 exports.findAll = (req, res) => {
@@ -69,7 +89,7 @@ exports.update = (req, res) => {
     name: req.body.name,
   };
 
-  query.update("board", req.params.boardId, board, (err, data) => {
+  Board.update("board", req.params.boardId, board, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -80,12 +100,30 @@ exports.update = (req, res) => {
           message: "Error retrieving Board with id " + req.params.boardId,
         });
       }
-    } else res.send(data);
+    } else {
+      const log = new Log({
+        target_type: "board",
+        action: "update",
+        target_title: "이전 보드 이름", // 이전 board name 받아올 것
+        target_title_updated: board.name,
+        created_at: timestamp,
+        board_id: req.params.boardId,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+      
+      res.send(data)};
   });
 };
 
 exports.delete = (req, res) => {
-  query.delete("board", req.params.boardId, (err, data) => {
+  Board.delete("board", req.params.boardId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

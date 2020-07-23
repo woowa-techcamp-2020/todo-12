@@ -4,12 +4,12 @@ const BaseModel = require("./base.js");
 class Log extends BaseModel {
     constructor(log) {
       super();
-      this.target_time = log.target_time;
+      this.target_type = log.target_type;
       this.action = log.action;
-      this.target_title = target_title;
-      this.target_title_updated = log.target_title_updated;
-      this.from_list = log.from_list;
-      this.to_list = log.to_list;
+      this.target_title = log.target_title;
+      this.target_title_updated = log.target_title_updated || null;
+      this.from_list = log.from_list || null;
+      this.to_list = log.to_list || null;
       this.board_id = log.board_id;
       this.performer_id = log.performer_id;
     }

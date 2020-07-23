@@ -58,13 +58,12 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Customer
   const user = {
     name: req.body.name,
     avatar: req.body.avatar || null,
   };
 
-  query.update("user", req.params.userId, user, (err, data) => {
+  User.update("user", req.params.userId, user, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -80,7 +79,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  query.delete("user", req.params.userId, (err, data) => {
+  User.delete("user", req.params.userId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

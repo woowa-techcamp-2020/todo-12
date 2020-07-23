@@ -20,7 +20,7 @@ export default class Board {
       lists.forEach((list) => {
         if (list.list_id) {
           const listI = new List({ target: this.board });
-          listI.setState(list);
+          listI.setState({ ...list, board_id: this.data.board_id });
         }
       });
     }

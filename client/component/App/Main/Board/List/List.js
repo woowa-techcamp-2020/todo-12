@@ -1,4 +1,5 @@
 import Item from "./Item/Item.js";
+import { api } from "../../../../../api.js";
 
 const config = {
   CONTENT_LIMIT: 500,
@@ -61,6 +62,38 @@ export default class List {
     }
   }
 
+  async fetchItemCreate() {
+    try {
+      const content = this.list.querySelector("textarea").value;
+      const { board_id, list_id, list_title: from_list } = this.data;
+      const itemData = {
+        content: content,
+        position: 1,
+        board_id,
+        list_id,
+        performer_id: 1,
+        from_list,
+      };
+      await api.create.item(itemData).then((data) => {
+        const {
+          id: item_id,
+          content: item_content,
+          position: item_position_in_list,
+        } = data.insertedItem;
+        const newItem = {
+          item_id,
+          item_content,
+          item_position_in_list,
+          item_performer_name: "admin",
+        };
+        this.data.items.unshift(newItem);
+        this.render();
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   handleItemSubmission() {
     const textarea = this.list.querySelector("textarea");
     const inputLength = textarea.value.length;
@@ -68,6 +101,7 @@ export default class List {
       this.showWarning(textarea, config.WARNING_TYPE.EMPTY);
     } else {
       this.removeWarning(textarea, config.WARNING_TYPE.EMPTY);
+      this.fetchItemCreate();
     }
   }
 

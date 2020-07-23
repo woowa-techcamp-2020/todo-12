@@ -8,7 +8,7 @@ export default class App {
     this.header = new Header({ target: app });
     this.main = new Main({ target: app });
 
-    this.setState(3);
+    this.setState(1);
   }
 
   setState(selectedBoardId) {

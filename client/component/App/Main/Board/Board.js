@@ -15,6 +15,15 @@ export default class Board {
   }
 
   render() {
+    this.board.innerHTML = `<div class="list-add">+</div>`;
+
+    const listAdd = this.board.querySelector(".list-add");
+    if (this.data.lists.length >= 4 || !this.data) {
+      listAdd.classList.add("invisible");
+    } else {
+      listAdd.classList.remove("invisible");
+    }
+
     const { lists } = this.data;
     if (lists.length) {
       lists.forEach((list) => {

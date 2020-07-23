@@ -17,7 +17,7 @@ export default class List {
   constructor({ target }) {
     const list = document.createElement("section");
     list.className = "list";
-    target.appendChild(list);
+    target.insertAdjacentElement("afterbegin", list);
     this.list = list;
     this.data = null;
   }

@@ -1,5 +1,26 @@
 .board {
-  width: 90%;
+  margin: 0 auto;
   height: 90%;
   display: flex;
+  justify-content: flex-start;
+  .list-add {
+    width: $list-width;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    border: 3px dashed $grey;
+    border-radius: 10px;
+    font-size: 100px;
+    color: $grey;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    &:hover {
+      background-color: $grey;
+      color: $white;
+    }
+  }
+  .invisible {
+    visibility: hidden;
+  }
 }

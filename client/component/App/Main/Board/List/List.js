@@ -6,15 +6,21 @@ export default class List {
     list.className = "list";
     target.appendChild(list);
     this.list = list;
-    this.data = [];
+    this.data = null;
   }
 
-  setState(items) {
+  setState(data) {
+    this.data = data;
+    this.render();
+  }
+
+  render() {
+    const { items } = this.data;
     items.forEach((item) => {
-      const itemI = new Item({ target: this.list });
-      itemI.setState(item);
-      this.data.shift(itemI);
+      if (item.item_id) {
+        const itemI = new Item({ target: this.list });
+        itemI.setState(item);
+      }
     });
-    // console.log(this.data);
   }
 }

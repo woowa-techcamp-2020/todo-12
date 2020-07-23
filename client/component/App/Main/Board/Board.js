@@ -6,18 +6,23 @@ export default class Board {
     board.className = "board";
     target.appendChild(board);
     this.board = board;
-    this.data = [];
+    this.data = null;
   }
 
-  setState(lists) {
-    lists.forEach((list) => {
-      console.log(list);
-      if (list.list_id) {
-        const listI = new List({ target: this.board });
-        listI.setState(list.items);
-        this.data.push(list);
-      }
-    });
-    // console.log(this.data);
+  setState(data) {
+    this.data = data;
+    this.render();
+  }
+
+  render() {
+    const { lists } = this.data;
+    if (lists.length) {
+      lists.forEach((list) => {
+        if (list.list_id) {
+          const listI = new List({ target: this.board });
+          listI.setState(list);
+        }
+      });
+    }
   }
 }

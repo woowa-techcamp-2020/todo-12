@@ -6,21 +6,18 @@ export default class Main {
     const main = document.createElement("main");
     target.appendChild(main);
     this.main = main;
-    this.data = null;
     this.board = new Board({ target: main });
   }
 
   setState(boardId) {
     this.fetchBoard(boardId);
-    // this.render()
   }
 
   async fetchBoard(boardId) {
     try {
       await api.get.board(boardId).then((data) => {
-        this.data = data;
+        this.board.setState(data);
       });
-      this.board.setState(this.data.lists);
     } catch {
       console.error("error");
     }

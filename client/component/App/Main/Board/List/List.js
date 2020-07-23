@@ -26,6 +26,23 @@ export default class List {
     this.render();
   }
 
+  openItemCreationSection() {
+    this.list.querySelector(".item-creation").classList.remove("hide");
+  }
+
+  closeItemCreationSection() {
+    this.list.querySelector(".item-creation").classList.add("hide");
+  }
+
+  resetItemCreationSection(textarea) {
+    textarea.value = "";
+  }
+
+  resetNcloseItemCreationSection() {
+    this.resetItemCreationSection(this.list.querySelector("textarea"));
+    this.closeItemCreationSection();
+  }
+
   render() {
     const { list_id: id, list_title: title, list_position: order } = this.data;
 
@@ -58,6 +75,17 @@ export default class List {
       </section>
       <section class="items"></section>
     `;
+
+    this.list
+      .querySelector(".item-add-btn")
+      .addEventListener("click", this.openItemCreationSection.bind(this));
+
+    this.list
+      .querySelector(".cancel-btn")
+      .addEventListener(
+        "click",
+        this.resetNcloseItemCreationSection.bind(this)
+      );
 
     const { items } = this.data;
 

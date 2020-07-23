@@ -19,7 +19,7 @@ exports.create = (req, res) => {
     performer_id: req.body.performer_id,
   });
 
-  query.create("item", item, (err, data) => {
+  Item.create("item", item, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Item.",
@@ -40,7 +40,7 @@ exports.update = (req, res) => {
     position: req.body.position,
   };
 
-  query.update("item", req.params.itemId, item, (err, data) => {
+  Item.update("item", req.params.itemId, item, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -56,7 +56,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  query.delete("item", req.params.itemId, (err, data) => {
+  Item.delete("item", req.params.itemId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

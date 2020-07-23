@@ -18,7 +18,7 @@ exports.create = (req, res) => {
     board_id: req.body.board_id,
   });
 
-  query.create("list", list, (err, data) => {
+  List.create("list", list, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while creating the List.",
@@ -55,7 +55,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  query.delete("list", req.params.listId, (err, data) => {
+  List.delete("list", req.params.listId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

@@ -1,4 +1,6 @@
 const List = require("../model/list.js");
+const Log = require("../model/log.js");
+
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -7,15 +9,11 @@ exports.create = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
   const list = new List({
     title: req.body.title,
     position: req.body.position,
-    created_at: timestamp,
-    updated_at: timestamp,
     board_id: req.body.board_id,
+    performer_id: req.body.performer_id
   });
 
   List.create("list", list, (err, data) => {
@@ -23,7 +21,25 @@ exports.create = (req, res) => {
       res.status(500).send({
         message: err.message || "Some error occurred while creating the List.",
       });
-    else res.send(data);
+    else {
+
+      const log = new Log({
+        target_type: "list",
+        action: "add",
+        target_title: list.title,
+        board_id: list.board_id,
+        performer_id: list.performer_id, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+
+      res.send(data);
+    }
   });
 };
 
@@ -34,10 +50,11 @@ exports.update = (req, res) => {
     });
   }
 
-  const list = {
+  const list = new List({
     title: req.body.title,
     position: req.body.position,
-  };
+    board_id: req.body.board_id,
+  });
 
   List.update("list", req.params.listId, list, (err, data) => {
     if (err) {
@@ -50,7 +67,25 @@ exports.update = (req, res) => {
           message: "Error retrieving List with id " + req.params.listId,
         });
       }
-    } else res.send(data);
+    } else {
+      const log = new Log({
+        target_type: "list",
+        action: "update",
+        target_title: "이전 리스트 타이틀", // list.title
+        target_title_updated: list.title,
+        board_id: list.board_id,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+      
+      res.send(data);
+    };
   });
 };
 

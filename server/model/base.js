@@ -3,6 +3,7 @@ const sql = require("../db.js");
 class BaseModel {
   static create(table, newObj, result) {
     sql.query(`INSERT INTO ${table} SET ?`, newObj, (err, res) => {
+      
       if (err) {
         console.log("error: ", err);
         result(err, null);

@@ -1,4 +1,5 @@
 const Board = require("../model/board.js");
+const Log = require("../model/log.js");
 const { boardDetailParser } = require("../utils/parser.js");
 
 exports.create = (req, res) => {
@@ -8,14 +9,9 @@ exports.create = (req, res) => {
     });
   }
 
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
   const board = new Board({
     name: req.body.name,
-    created_at: timestamp,
-    updated_at: timestamp,
-    user_id: req.body.user_id, // 로그인 정보로 변경할 것
+    user_id: 1, // 로그인 정보로 변경할 것
   });
 
   Board.create("board", board, (err, data) => {
@@ -23,8 +19,27 @@ exports.create = (req, res) => {
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Board.",
       });
-    else res.send(data);
-  });
+    else {
+
+      const log = new Log({
+        target_type: "board",
+        action: "add",
+        target_title: board.name,
+        board_id: data.id,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+
+      res.send(data)
+    }
+  })
+
 };
 
 exports.findAll = (req, res) => {
@@ -79,7 +94,24 @@ exports.update = (req, res) => {
           message: "Error retrieving Board with id " + req.params.boardId,
         });
       }
-    } else res.send(data);
+    } else {
+      const log = new Log({
+        target_type: "board",
+        action: "update",
+        target_title: "이전 보드 이름", // 이전 board name 받아올 것
+        target_title_updated: board.name,
+        board_id: req.params.boardId,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+      
+      res.send(data)};
   });
 };
 

@@ -43,8 +43,38 @@ export default class List {
     }
   }
 
-  handleInputChange({ target: { value } }) {
-    this.list.querySelector(".char-counter").innerText = value.length;
+  handleInputChange({ target }) {
+    const inputLength = target.value.length;
+    this.list.querySelector(".char-counter").innerText = inputLength;
+    this.handleErrorMsg(target, inputLength);
+  }
+
+  handleErrorMsg(target, length) {
+    if (length >= config.CONTENT_LIMIT) {
+      this.showWarning(target, config.WARNING_TYPE.TOO_LONG);
+    } else {
+      this.removeWarning(target, config.WARNING_TYPE.TOO_LONG);
+    }
+  }
+
+  showWarning(target, type) {
+    target.classList.add("warning");
+    const errorMsgContainer = target.parentElement.querySelector(".error-msg");
+    const charCountContainer = target.parentElement.querySelector(
+      ".char-counter"
+    );
+    errorMsgContainer.innerText = config.WARNING_MESSAGE[type];
+    charCountContainer.classList.add("warning");
+  }
+
+  removeWarning(target, type) {
+    target.classList.remove("warning");
+    const errorMsgContainer = target.parentElement.querySelector(".error-msg");
+    const charCountContainer = target.parentElement.querySelector(
+      ".char-counter"
+    );
+    errorMsgContainer.innerText = "";
+    charCountContainer.classList.remove("warning");
   }
 
   openItemCreationSection() {

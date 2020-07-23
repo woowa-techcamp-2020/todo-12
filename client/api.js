@@ -46,12 +46,12 @@ export const api = {
     boards(userId) {
       return fetch(`${API_ENDPOINT}/users/${userId}`).then((res) => res.json());
     },
-    lists(boardId) {
+    board(boardId) {
       return fetch(`${API_ENDPOINT}/boards/${boardId}`).then((res) =>
         res.json()
       );
     },
-    items(listId) {
+    list(listId) {
       return fetch(`${API_ENDPOINT}/lists/${boardId}`).then((res) =>
         res.json()
       );

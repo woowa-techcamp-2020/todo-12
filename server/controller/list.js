@@ -1,5 +1,8 @@
 const List = require("../model/list.js");
-const Log = require("../model/log.js")
+const Log = require("../model/log.js");
+const currentTime = new Date();
+const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
+
 
 
 exports.create = (req, res) => {
@@ -8,9 +11,6 @@ exports.create = (req, res) => {
       message: "Content can not be empty!",
     });
   }
-
-  const currentTime = new Date();
-  const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
   const list = new List({
     title: req.body.title,
@@ -58,6 +58,7 @@ exports.update = (req, res) => {
   const list = {
     title: req.body.title,
     position: req.body.position,
+    board_id: req.body.board_id
   };
 
   List.update("list", req.params.listId, list, (err, data) => {
@@ -71,7 +72,27 @@ exports.update = (req, res) => {
           message: "Error retrieving List with id " + req.params.listId,
         });
       }
-    } else res.send(data);
+    } else {
+      console.log(req.body)
+      const log = new Log({
+        target_type: "list",
+        action: "update",
+        target_title: "이전 리스트 타이틀",
+        target_title_updated: list.title,
+        created_at: timestamp,
+        board_id: list.board_id,
+        performer_id: 1, //로그인 정보로 수정할 것
+      });
+    
+      Log.create("log", log, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message: err.message || "Some error occurred while creating the Log."
+          });
+      });
+      
+      res.send(data);
+    };
   });
 };
 

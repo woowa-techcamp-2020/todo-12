@@ -26,6 +26,22 @@ export default class List {
     this.render();
   }
 
+  handleItemChange(type, data) {
+    console.log("handle item change");
+    if (type === "update") {
+      this.data.items.forEach((item) => {
+        if (item.item_id === data.item_id) {
+          item = data;
+        }
+      });
+    } else if (type === "delete") {
+      this.data.items = this.data.items.filter(
+        (item) => item.item_id !== data.item_id
+      );
+    }
+    this.render();
+  }
+
   handleListClick({ target: { classList, tagName } }) {
     const classes = Array.from(classList);
     if (classes.includes("item-add-btn")) {
@@ -158,7 +174,12 @@ export default class List {
     const itemContainer = this.list.querySelector(".items");
     items.forEach((item) => {
       if (item.item_id) {
-        const itemI = new Item({ target: itemContainer });
+        const itemI = new Item({
+          target: itemContainer,
+          onChange: (type, data) => {
+            this.handleItemChange(type, data);
+          },
+        });
         itemI.setState(item);
       }
     });

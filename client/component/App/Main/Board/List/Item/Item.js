@@ -1,5 +1,7 @@
+import { api } from "../../../../../../api.js";
+
 export default class Item {
-  constructor({ target }) {
+  constructor({ target, onChange }) {
     const item = document.createElement("article");
     item.className = "item";
     target.appendChild(item);
@@ -7,6 +9,7 @@ export default class Item {
     this.data = null;
     this.timer = null;
     this.clickedBefore = false;
+    this.onChange = onChange;
   }
 
   setState(data) {
@@ -28,10 +31,19 @@ export default class Item {
     this.openUpdateSection();
   }
 
+  async deleteItem() {
+    try {
+      await api.delete.item(this.data.item_id);
+      this.onChange("delete", this.data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   handleItemClick({ target: { classList } }) {
     const classes = Array.from(classList);
     if (classes.includes("close-btn")) {
-      console.log("close btn click");
+      this.deleteItem();
     }
     if (classes.includes("update-btn")) {
       console.log("update btn click");

@@ -1,8 +1,6 @@
 const Board = require("../model/board.js");
 const Log = require("../model/log.js");
 const { boardDetailParser } = require("../utils/parser.js");
-const currentTime = new Date();
-const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -13,8 +11,6 @@ exports.create = (req, res) => {
 
   const board = new Board({
     name: req.body.name,
-    created_at: timestamp,
-    updated_at: timestamp,
     user_id: 1, // 로그인 정보로 변경할 것
   });
 
@@ -28,9 +24,8 @@ exports.create = (req, res) => {
 
       const log = new Log({
         target_type: "board",
-        action: "create",
+        action: "add",
         target_title: board.name,
-        created_at: timestamp,
         board_id: data.id,
         performer_id: 1, //로그인 정보로 수정할 것
       });
@@ -106,7 +101,6 @@ exports.update = (req, res) => {
         action: "update",
         target_title: "이전 보드 이름", // 이전 board name 받아올 것
         target_title_updated: board.name,
-        created_at: timestamp,
         board_id: req.params.boardId,
         performer_id: 1, //로그인 정보로 수정할 것
       });

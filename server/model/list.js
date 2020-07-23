@@ -6,8 +6,6 @@ class List extends BaseModel {
     this.title = list.title;
     this.position = list.position;
     this.board_id = list.board_id;
-    this.created_at = list.created_at;
-    this.updated_at = list.updated_at;
   }
 }
 

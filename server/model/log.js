@@ -10,7 +10,6 @@ class Log extends BaseModel {
       this.target_title_updated = log.target_title_updated || null;
       this.from_list = log.from_list || null;
       this.to_list = log.to_list || null;
-      this.created_at = log.created_at;
       this.board_id = log.board_id;
       this.performer_id = log.performer_id;
     }

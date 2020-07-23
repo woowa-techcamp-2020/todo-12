@@ -1,8 +1,5 @@
 const List = require("../model/list.js");
 const Log = require("../model/log.js");
-const currentTime = new Date();
-const timestamp = currentTime.toISOString().replace("T", " ").slice(0, 19);
-
 
 
 exports.create = (req, res) => {
@@ -15,8 +12,6 @@ exports.create = (req, res) => {
   const list = new List({
     title: req.body.title,
     position: req.body.position,
-    created_at: timestamp,
-    updated_at: timestamp,
     board_id: req.body.board_id,
     performer_id: req.body.performer_id
   });
@@ -30,9 +25,8 @@ exports.create = (req, res) => {
 
       const log = new Log({
         target_type: "list",
-        action: "create",
+        action: "add",
         target_title: list.title,
-        created_at: list.created_at,
         board_id: list.board_id,
         performer_id: list.performer_id, //로그인 정보로 수정할 것
       });
@@ -60,7 +54,6 @@ exports.update = (req, res) => {
     title: req.body.title,
     position: req.body.position,
     board_id: req.body.board_id,
-    updated_at: timestamp,
   });
 
   List.update("list", req.params.listId, list, (err, data) => {
@@ -78,9 +71,8 @@ exports.update = (req, res) => {
       const log = new Log({
         target_type: "list",
         action: "update",
-        target_title: "이전 리스트 타이틀",
+        target_title: "이전 리스트 타이틀", // list.title
         target_title_updated: list.title,
-        created_at: list.updated_at,
         board_id: list.board_id,
         performer_id: 1, //로그인 정보로 수정할 것
       });

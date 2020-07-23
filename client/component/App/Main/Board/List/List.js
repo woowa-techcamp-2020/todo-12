@@ -36,6 +36,9 @@ export default class List {
       this.resetItemCreationSection();
       this.closeItemCreationSection();
     }
+    if (classes.includes("confirm-btn")) {
+      this.handleItemSubmission();
+    }
     if (tagName === "TEXTAREA") {
       this.list
         .querySelector("textarea")
@@ -43,13 +46,35 @@ export default class List {
     }
   }
 
+  handleItemSubmission() {
+    const textarea = this.list.querySelector("textarea");
+    const inputLength = textarea.value.length;
+    if (inputLength === 0) {
+      this.showWarning(textarea, config.WARNING_TYPE.EMPTY);
+    } else {
+      this.removeWarning(textarea, config.WARNING_TYPE.EMPTY);
+    }
+  }
+
   handleInputChange({ target }) {
     const inputLength = target.value.length;
     this.list.querySelector(".char-counter").innerText = inputLength;
+    this.toggleConfirmBtn(inputLength);
     this.handleErrorMsg(target, inputLength);
   }
 
+  toggleConfirmBtn(length) {
+    if (length === 0) {
+      this.list.querySelector(".confirm-btn").seßtAttribute("disabled", "");
+    } else {
+      this.list.querySelector(".confirm-btn").removeAttribute("disabled");
+    }
+  }
+
   handleErrorMsg(target, length) {
+    if (length === 1) {
+      this.removeWarning(target, config.WARNING_TYPE.TOO_LONG);
+    }
     if (length >= config.CONTENT_LIMIT) {
       this.showWarning(target, config.WARNING_TYPE.TOO_LONG);
     } else {
@@ -120,7 +145,7 @@ export default class List {
           </div>
         </div>
         <div class="item-creation__btns">
-          <button class="confirm-btn">Add</button>
+          <button class="confirm-btn" disabled>Add</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </section>

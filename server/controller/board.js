@@ -1,4 +1,5 @@
 const Board = require("../model/board.js");
+const Log = require("../model/log.js");
 const { boardDetailParser } = require("../utils/parser.js");
 
 exports.create = (req, res) => {

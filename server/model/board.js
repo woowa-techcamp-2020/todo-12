@@ -1,3 +1,4 @@
+const sql = require("../db.js");
 const BaseModel = require("./base.js");
 
 class Board extends BaseModel {
@@ -7,7 +8,7 @@ class Board extends BaseModel {
     this.user_id = board.user_id;
   }
 
-  getAll(userId, result) {
+  static getAll(userId, result) {
     sql.query(`SELECT * FROM board WHERE user_id = ${userId}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -25,7 +26,7 @@ class Board extends BaseModel {
     });
   }
 
-  findById(boardId, result) {
+  static findById(boardId, result) {
     sql.query(
       `SELECT
           b.id as board_id,

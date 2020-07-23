@@ -26,7 +26,7 @@ export default class List {
     this.render();
   }
 
-  handleListClick({ target: { classList } }) {
+  handleListClick({ target: { classList, tagName } }) {
     const classes = Array.from(classList);
     if (classes.includes("item-add-btn")) {
       this.openItemCreationSection();
@@ -36,6 +36,15 @@ export default class List {
       this.resetItemCreationSection();
       this.closeItemCreationSection();
     }
+    if (tagName === "TEXTAREA") {
+      this.list
+        .querySelector("textarea")
+        .addEventListener("input", this.handleInputChange.bind(this));
+    }
+  }
+
+  handleInputChange({ target: { value } }) {
+    this.list.querySelector(".char-counter").innerText = value.length;
   }
 
   openItemCreationSection() {

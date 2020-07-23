@@ -135,7 +135,14 @@ export default class List {
   }
 
   render() {
-    const { list_id: id, list_title: title, list_position: order } = this.data;
+    const {
+      list_id: id,
+      list_title: title,
+      list_position: order,
+      items,
+    } = this.data;
+
+    const validItems = items.filter((item) => item.item_id);
 
     this.list.dataset.id = id;
     this.list.dataset.order = order;
@@ -143,7 +150,7 @@ export default class List {
     this.list.innerHTML = `
       <header>
         <div class="col">
-          <div class="counter">3</div>
+          <div class="counter">${validItems.length}</div>
           <span class="title">${title}</span>
         </div>
         <div class="col">
@@ -169,19 +176,15 @@ export default class List {
 
     this.list.addEventListener("click", this.handleListClick.bind(this));
 
-    const { items } = this.data;
-
     const itemContainer = this.list.querySelector(".items");
-    items.forEach((item) => {
-      if (item.item_id) {
-        const itemI = new Item({
-          target: itemContainer,
-          onChange: (type, data) => {
-            this.handleItemChange(type, data);
-          },
-        });
-        itemI.setState(item);
-      }
+    validItems.forEach((item) => {
+      const itemI = new Item({
+        target: itemContainer,
+        onChange: (type, data) => {
+          this.handleItemChange(type, data);
+        },
+      });
+      itemI.setState(item);
     });
   }
 }

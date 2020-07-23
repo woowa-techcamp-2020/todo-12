@@ -1,3 +1,5 @@
+import Item from "./Item/Item.js";
+
 export default class List {
   constructor({ target }) {
     const list = document.createElement("section");
@@ -8,7 +10,11 @@ export default class List {
   }
 
   setState(items) {
-    items.forEach((item) => this.data.shift(item));
-    console.log(this.data);
+    items.forEach((item) => {
+      const itemI = new Item({ target: this.list });
+      itemI.setState(item);
+      this.data.shift(itemI);
+    });
+    // console.log(this.data);
   }
 }

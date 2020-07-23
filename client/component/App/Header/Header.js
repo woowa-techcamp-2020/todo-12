@@ -6,7 +6,9 @@ export default class Header {
     const header = document.createElement("header");
     header.innerHTML = `
       <div class="col">To Do</div>  
-      <div class="col selection"></div>
+      <div class="col selection">
+      </div>
+      <div class="menu">MENU</div>
     `;
     const selection = header.querySelector(".selection");
 

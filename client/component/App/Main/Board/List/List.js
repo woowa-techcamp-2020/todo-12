@@ -154,7 +154,6 @@ export default class List {
     this.list.addEventListener("click", this.handleListClick.bind(this));
 
     const { items } = this.data;
-
     const itemContainer = this.list.querySelector(".items");
     items.forEach((item) => {
       if (item.item_id) {

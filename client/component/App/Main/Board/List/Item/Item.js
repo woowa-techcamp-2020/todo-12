@@ -75,15 +75,37 @@ export default class Item {
     }
   }
 
-  handleItemClick({ target: { classList } }) {
+  closeConfirmSection() {
+    this.item.querySelector(".del-confirm").classList.add("invisible");
+  }
+
+  openConfirmSection() {
+    const delConfirmSection = this.item.querySelector(".del-confirm");
+    delConfirmSection.style.top = this.item.offsetTop + "px";
+    delConfirmSection.style.left = this.item.offsetLeft + "px";
+    delConfirmSection.classList.remove("invisible");
+  }
+
+  handleItemClick(e) {
+    const {
+      target: { classList },
+    } = e;
     const classes = Array.from(classList);
-    if (classes.includes("close-btn")) {
-      this.deleteItem();
-    }
-    if (classes.includes("update-btn")) {
+    if (e.target.closest(".del-confirm")) {
+      if (e.target.tagName !== "BUTTON") {
+        e.preventDefault();
+      } else {
+        if (classes.includes("cancel-btn")) {
+          this.closeConfirmSection();
+        } else {
+          this.deleteItem();
+        }
+      }
+    } else if (classes.includes("close-btn")) {
+      this.openConfirmSection();
+    } else if (classes.includes("update-btn")) {
       this.updateItemContent();
-    }
-    if (classes.includes("cancel-btn")) {
+    } else if (classes.includes("cancel-btn")) {
       this.closeUpdateSection();
     }
   }
@@ -94,6 +116,15 @@ export default class Item {
   }
 
   handleItemMouseDown(e) {
+    if (
+      !e.currentTarget
+        .querySelector(".del-confirm")
+        .classList.contains("invisible")
+    ) {
+      e.stopPropagation();
+      this.clickedBefore = false;
+      this.clearTimer();
+    }
     if (e.currentTarget.querySelector(".usual").classList.contains("hide")) {
       e.stopPropagation();
     }
@@ -143,6 +174,13 @@ export default class Item {
         <textarea maxlength="500" placeholder="내용을 입력하세요."></textarea>
         <div class="update-btns">
           <button class="update-btn">Update</button>
+          <button class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+      <div class="del-confirm invisible">
+        <span>정말로 삭제하시겠습니까?</span>
+        <div class="confirm-btns">
+          <button class="confirm-btn">Update</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </div>

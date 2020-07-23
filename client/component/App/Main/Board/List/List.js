@@ -199,7 +199,7 @@ export default class List {
           </div>
         </div>
         <div class="item-creation__btns">
-          <button class="confirm-btn" disabled>Add</button>
+          <button class="confirm-btn">Add</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </section>

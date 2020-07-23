@@ -98,7 +98,6 @@ export default function () {
   };
 
   const initDragNDrop = function (e) {
-    if (e.target.tagName === "BUTTON") return;
     selectedElem = e.target.closest(".item");
     if (selectedElem) {
       setInitialCoordinates();

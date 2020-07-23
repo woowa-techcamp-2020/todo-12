@@ -5,11 +5,58 @@ export default class Item {
     target.appendChild(item);
     this.item = item;
     this.data = null;
+    this.timer = null;
+    this.clickedBefore = false;
   }
 
   setState(data) {
     this.data = data;
     this.render();
+  }
+
+  handleItemDoubleClick() {
+    this.item.querySelector(".usual").classList.add("hide");
+    this.item.querySelector(".update").classList.remove("hide");
+  }
+
+  handleItemClick({ target: { classList } }) {
+    const classes = Array.from(classList);
+    if (classes.includes("close-btn")) {
+      console.log("close btn click");
+    }
+    if (classes.includes("update-btn")) {
+      console.log("update btn click");
+    }
+    if (classes.includes("cancel-btn")) {
+      console.log("cancel btn click");
+    }
+  }
+
+  clearTimer() {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
+
+  handleItemMouseDown(e) {
+    if (e.currentTarget.querySelector(".usual").classList.contains("hide")) {
+      e.stopPropagation();
+    }
+    if (e.target.tagName === "BUTTON") {
+      e.stopPropagation();
+      e.target.addEventListener("mouseup", this.handleItemClick.bind(this));
+    }
+    if (this.clickedBefore) {
+      e.stopPropagation();
+      this.clickedBefore = false;
+      this.clearTimer();
+      this.handleItemDoubleClick();
+    } else {
+      this.clickedBefore = true;
+      this.timer = setTimeout(() => {
+        this.clickedBefore = false;
+        this.clearTimer();
+      }, 500);
+    }
   }
 
   render() {
@@ -42,5 +89,10 @@ export default class Item {
         </div>
       </div>
     `;
+
+    this.item.addEventListener(
+      "mousedown",
+      this.handleItemMouseDown.bind(this)
+    );
   }
 }

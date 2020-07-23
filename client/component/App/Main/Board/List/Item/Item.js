@@ -45,13 +45,43 @@ export default class Item {
     }
   }
 
+  async updateItemContent() {
+    const new_content = this.item
+      .querySelector(".update")
+      .querySelector("textarea").value;
+    try {
+      const itemData = {
+        content: this.data.item_content,
+        position: this.data.item_position_in_list,
+        board_id: this.data.board_id,
+        list_id: this.data.list_id,
+        performer_id: 1,
+        from_list: this.data.list_title,
+        new_content: new_content,
+        to_list: null,
+      };
+      await api.update.itemContent(this.data.item_id, itemData).then((data) => {
+        const newItem = {
+          item_id: this.data.item_id,
+          item_content: new_content,
+          item_position_in_list: this.data.item_position_in_list,
+          item_performer_name: this.data.item_performer_name,
+          list_id: this.data.list_id,
+        };
+        this.onChange("update", newItem);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   handleItemClick({ target: { classList } }) {
     const classes = Array.from(classList);
     if (classes.includes("close-btn")) {
       this.deleteItem();
     }
     if (classes.includes("update-btn")) {
-      console.log("update btn click");
+      this.updateItemContent();
     }
     if (classes.includes("cancel-btn")) {
       this.closeUpdateSection();

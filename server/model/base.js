@@ -33,24 +33,17 @@ class BaseModel {
     });
   }
 
-  static update(table, id, newData, result) {
-    sql.query(`UPDATE ${table} SET ? WHERE id = ${id}`, newData, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (!res.affectedRows) {
-        console.log("not_found");
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log(`${table} Id : ${id} was updated`);
-      result(null, { updatedId: id });
-      return;
-    });
+  static async update(table, id, newData) {
+    try {
+      const result = await sql.query(
+        `UPDATE ${table} SET ? WHERE id = ${id}`,
+        newData
+      );
+      console.log(result);
+      return { result };
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

@@ -29,11 +29,10 @@ export default class List {
 
   handleItemChange(type, data) {
     if (type === "update") {
-      this.data.items.forEach((item) => {
-        if (item.item_id === data.item_id) {
-          item = data;
-        }
-      });
+      const found = this.data.items.findIndex(
+        (item) => item.item_id === data.item_id
+      );
+      this.data.items[found] = data;
     } else if (type === "delete") {
       this.data.items = this.data.items.filter(
         (item) => item.item_id !== data.item_id
@@ -217,7 +216,11 @@ export default class List {
           this.handleItemChange(type, data);
         },
       });
-      itemI.setState({ ...item, list_id: this.data.list_id });
+      itemI.setState({
+        ...item,
+        list_id: this.data.list_id,
+        board_id: this.data.board_id,
+      });
     });
   }
 }

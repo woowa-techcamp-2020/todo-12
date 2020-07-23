@@ -61,7 +61,15 @@ export const api = {
     user() {},
     board() {},
     list() {},
-    item() {},
+    itemContent(itemId, itemData) {
+      return fetch(`${API_ENDPOINT}/items/${itemId}`, {
+        method: "PUT",
+        body: JSON.stringify(itemData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json());
+    },
   },
   delete: {
     user(userId) {

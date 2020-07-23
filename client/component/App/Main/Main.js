@@ -18,8 +18,8 @@ export default class Main {
       await api.get.board(boardId).then((data) => {
         this.board.setState(data);
       });
-    } catch {
-      console.error("error");
+    } catch (err) {
+      console.error(err.message);
     }
   }
 }

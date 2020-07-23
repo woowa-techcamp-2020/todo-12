@@ -6,7 +6,7 @@ export default class Item {
     this.item = item;
     this.data = null;
 
-    this.render();
+    item.innerHTML = ``;
   }
 
   setState(data) {
@@ -15,12 +15,22 @@ export default class Item {
   }
 
   render() {
+    const {
+      item_id: id,
+      item_content: content,
+      item_position_in_list: order,
+      item_performer_name: performer,
+    } = this.data;
+
+    this.item.dataset.id = id;
+    this.item.dataset.order = order;
+
     this.item.innerHTML = `
       <div class="usual">
         <div class="col">...</div>
         <div class="col">
-          <div class="content">${this.content}</div>
-          <span class="creator">Added by ${this.performer_username}</span>
+          <div class="content">${content}</div>
+          <span class="creator">Added by ${performer}</span>
         </div>
         <div class="col">
           <button class="close-btn">X</button>

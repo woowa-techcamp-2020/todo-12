@@ -1,0 +1,9 @@
+.list {
+  width: $list-width;
+  height: 100%;
+  background-color: $grey;
+  border-radius: 10px;
+  &:not(:last-child) {
+    margin-right: 30px;
+  }
+}

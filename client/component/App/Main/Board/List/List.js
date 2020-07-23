@@ -26,6 +26,18 @@ export default class List {
     this.render();
   }
 
+  handleListClick({ target: { classList } }) {
+    const classes = Array.from(classList);
+    if (classes.includes("item-add-btn")) {
+      this.openItemCreationSection();
+      return;
+    }
+    if (classes.includes("cancel-btn")) {
+      this.resetItemCreationSection();
+      this.closeItemCreationSection();
+    }
+  }
+
   openItemCreationSection() {
     this.list.querySelector(".item-creation").classList.remove("hide");
   }
@@ -34,8 +46,8 @@ export default class List {
     this.list.querySelector(".item-creation").classList.add("hide");
   }
 
-  resetItemCreationSection(textarea) {
-    textarea.value = "";
+  resetItemCreationSection() {
+    this.list.querySelector("textarea").value = "";
   }
 
   resetNcloseItemCreationSection() {
@@ -76,16 +88,7 @@ export default class List {
       <section class="items"></section>
     `;
 
-    this.list
-      .querySelector(".item-add-btn")
-      .addEventListener("click", this.openItemCreationSection.bind(this));
-
-    this.list
-      .querySelector(".cancel-btn")
-      .addEventListener(
-        "click",
-        this.resetNcloseItemCreationSection.bind(this)
-      );
+    this.list.addEventListener("click", this.handleListClick.bind(this));
 
     const { items } = this.data;
 

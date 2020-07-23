@@ -20,6 +20,9 @@ export default class Main {
       await api.get.board(boardId).then((data) => {
         this.data = data;
       });
-    } catch {}
+      this.board.setState(this.data.lists);
+    } catch {
+      console.error("error");
+    }
   }
 }

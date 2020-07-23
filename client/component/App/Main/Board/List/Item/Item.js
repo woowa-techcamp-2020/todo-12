@@ -5,8 +5,6 @@ export default class Item {
     target.appendChild(item);
     this.item = item;
     this.data = null;
-
-    item.innerHTML = ``;
   }
 
   setState(data) {

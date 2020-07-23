@@ -30,7 +30,6 @@ export default class List {
     const classes = Array.from(classList);
     if (classes.includes("item-add-btn")) {
       this.openItemCreationSection();
-      return;
     }
     if (classes.includes("cancel-btn")) {
       this.resetItemCreationSection();
@@ -65,7 +64,7 @@ export default class List {
 
   toggleConfirmBtn(length) {
     if (length === 0) {
-      this.list.querySelector(".confirm-btn").seßtAttribute("disabled", "");
+      this.list.querySelector(".confirm-btn").setAttribute("disabled", "");
     } else {
       this.list.querySelector(".confirm-btn").removeAttribute("disabled");
     }

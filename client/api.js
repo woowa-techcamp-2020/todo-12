@@ -75,12 +75,12 @@ export const api = {
       }).then((res) => res.json());
     },
     list(listId) {
-      return fetch(`${API_ENDPOINT}/lists/${boardId}`, {
+      return fetch(`${API_ENDPOINT}/lists/${listId}`, {
         method: "DELETE",
       }).then((res) => res.json());
     },
     item(itemId) {
-      return fetch(`${API_ENDPOINT}/items/${boardId}`, {
+      return fetch(`${API_ENDPOINT}/items/${itemId}`, {
         method: "DELETE",
       }).then((res) => res.json());
     },

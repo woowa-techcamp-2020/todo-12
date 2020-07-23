@@ -1,3 +1,5 @@
+import List from "./List/List.js";
+
 export default class Board {
   constructor({ target }) {
     const board = document.createElement("section");
@@ -7,12 +9,15 @@ export default class Board {
     this.data = [];
   }
 
-  setState(data) {
-    data.forEach((elem) => {
-      if (elem.list_id) {
-        this.data.push(elem);
+  setState(lists) {
+    lists.forEach((list) => {
+      console.log(list);
+      if (list.list_id) {
+        const listI = new List({ target: this.board });
+        listI.setState(list.items);
+        this.data.push(list);
       }
     });
-    // console.log(this.data)
+    // console.log(this.data);
   }
 }

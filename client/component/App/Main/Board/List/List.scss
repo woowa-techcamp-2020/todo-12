@@ -1,0 +1,95 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $list-width;
+  height: 100%;
+  background-color: $grey;
+  border-radius: 10px;
+  padding: 10px;
+  &:not(:last-child) {
+    margin-right: 30px;
+  }
+  header,
+  section {
+    width: 100%;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .col {
+      display: flex;
+      align-items: center;
+      .counter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: $white;
+        font-size: 16px;
+        margin-right: 5px;
+      }
+    }
+  }
+  .item-creation {
+    > div {
+      width: 100%;
+      &.textarea-wrapper {
+        margin-bottom: 5px;
+        textarea {
+          width: 100%;
+          height: $item-height;
+          background-color: $white;
+          border-radius: 5px;
+          margin-bottom: 2px;
+          resize: none;
+          &.warning {
+            border: 1px solid $red;
+          }
+        }
+        .textarea-msg {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          padding: 0 5px;
+          font-size: 12px;
+          .warning {
+            color: $red;
+          }
+        }
+      }
+      &.item-creation__btns {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 15px;
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: $btn-height;
+          width: $btn-width;
+          padding: 12px 40px;
+          border-radius: 5px;
+          color: $white;
+          &.confirm-btn {
+            background-color: $ok;
+          }
+          &.cancel-btn {
+            background-color: $cancel;
+          }
+        }
+      }
+    }
+  }
+  .items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hide {
+    display: none;
+  }
+}

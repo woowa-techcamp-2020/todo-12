@@ -6,9 +6,6 @@ export default function () {
     originMouseX,
     originMouseY;
 
-  // const ITEM_HEIGHT = parseInt(styleVariables.itemHeight.replace("px", ""));
-  // const ITEM_WIDTH = parseInt(styleVariables.itemWidth.replace("px", ""));
-
   const setInitialCoordinates = function () {
     originTop = selectedElem.offsetTop;
     originLeft = selectedElem.offsetLeft;
@@ -39,10 +36,30 @@ export default function () {
     selectedElem.classList.add("shadow");
   };
 
+  const checkMovement = function () {
+    const {
+      data: { list, order },
+    } = selectedElem;
+    const originInfo = {
+      list,
+      order,
+    };
+    const currList = selectedElem.closest(".list");
+    const currListItems = currList.querySelectorAll(".item");
+    const currOrder = Array.from(currListItems).indexOf(selectedElem);
+    const currentInfo = {
+      list: currList.data.order,
+      order: currOrder,
+    };
+    // 업데이트 api
+    // dataset 변경
+  };
+
   const handleMouseUp = function (e) {
     draggableItem.remove();
     selectedElem.classList.remove("shadow");
     reset();
+    checkMovement();
   };
 
   const locator = function () {

@@ -86,10 +86,12 @@ export default class Item {
       item_content: content,
       item_position_in_list: order,
       item_performer_name: performer,
+      list_id: list,
     } = this.data;
 
     this.item.dataset.id = id;
     this.item.dataset.order = order;
+    this.item.dataset.list = list;
 
     this.item.innerHTML = `
       <div class="usual">

@@ -217,7 +217,7 @@ export default class List {
           this.handleItemChange(type, data);
         },
       });
-      itemI.setState(item);
+      itemI.setState({ ...item, list_id: this.data.list_id });
     });
   }
 }

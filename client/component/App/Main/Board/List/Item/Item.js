@@ -14,9 +14,18 @@ export default class Item {
     this.render();
   }
 
-  handleItemDoubleClick() {
+  openUpdateSection() {
     this.item.querySelector(".usual").classList.add("hide");
     this.item.querySelector(".update").classList.remove("hide");
+  }
+
+  closeUpdateSection() {
+    this.item.querySelector(".usual").classList.remove("hide");
+    this.item.querySelector(".update").classList.add("hide");
+  }
+
+  handleItemDoubleClick() {
+    this.openUpdateSection();
   }
 
   handleItemClick({ target: { classList } }) {
@@ -28,7 +37,7 @@ export default class Item {
       console.log("update btn click");
     }
     if (classes.includes("cancel-btn")) {
-      console.log("cancel btn click");
+      this.closeUpdateSection();
     }
   }
 

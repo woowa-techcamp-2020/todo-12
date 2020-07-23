@@ -97,12 +97,10 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-
   const item = new Item({
     content: req.body.content,
     list_id: req.body.list_id
   });
-
   Item.delete("item", req.params.itemId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {

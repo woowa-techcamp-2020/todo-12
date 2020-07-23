@@ -3,9 +3,7 @@
 
 @import "main.scss";
 
-@import "../../component/User/User.scss";
-@import "../../component/Item/Item.scss";
-@import "../../component/List/List.scss";
-@import "../../component/Board/Board.scss";
-
+@import "../../component/App/Main/Board/Board.scss";
+@import "../../component/App/Main/Board/List/List.scss";
+@import "../../component/App/Main/Board/List/Item/Item.scss";
 @import "../../utils/drag-drop/drag-drop.scss";

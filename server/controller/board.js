@@ -14,7 +14,6 @@ exports.create = (req, res) => {
     user_id: 1, // 로그인 정보로 변경할 것
   });
 
-
   Board.create("board", board, (err, data) => {
     if (err)
       res.status(500).send({

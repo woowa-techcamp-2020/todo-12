@@ -5,14 +5,14 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: "./client/src/app.js",
+  entry: "./client/src/index.js",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "client/src/app.html",
+      template: "client/src/index.html",
     }),
     new MiniCssExtractPlugin({
       filename: "index.css",

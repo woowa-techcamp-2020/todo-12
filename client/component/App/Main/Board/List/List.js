@@ -28,7 +28,6 @@ export default class List {
   }
 
   handleItemChange(type, data) {
-    console.log("handle item change");
     if (type === "update") {
       this.data.items.forEach((item) => {
         if (item.item_id === data.item_id) {

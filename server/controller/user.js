@@ -58,10 +58,10 @@ exports.update = (req, res) => {
     });
   }
 
-  const user = {
+  const user = new User({
     name: req.body.name,
     avatar: req.body.avatar || null,
-  };
+  });
 
   User.update("user", req.params.userId, user, (err, data) => {
     if (err) {

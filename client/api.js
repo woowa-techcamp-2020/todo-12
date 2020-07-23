@@ -3,36 +3,36 @@ const API_ENDPOINT = "http://localhost:3000";
 export const api = {
   create: {
     user(userData) {
-      return fetch(`${API_ENDPOINT}/users}`, {
+      return fetch(`${API_ENDPOINT}/users`, {
         method: "POST",
-        body: JSON.stringify(Data),
+        body: JSON.stringify(userData),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
     },
     board(boardData) {
-      return fetch(`${API_ENDPOINT}/boards}`, {
+      return fetch(`${API_ENDPOINT}/boards`, {
         method: "POST",
-        body: JSON.stringify(Data),
+        body: JSON.stringify(boardData),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
     },
     list(listData) {
-      return fetch(`${API_ENDPOINT}/lists}`, {
+      return fetch(`${API_ENDPOINT}/lists`, {
         method: "POST",
-        body: JSON.stringify(Data),
+        body: JSON.stringify(listData),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
     },
     item(itemData) {
-      return fetch(`${API_ENDPOINT}/items}`, {
+      return fetch(`${API_ENDPOINT}/items`, {
         method: "POST",
-        body: JSON.stringify(Data),
+        body: JSON.stringify(itemData),
         headers: {
           "Content-Type": "application/json",
         },

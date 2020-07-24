@@ -30,6 +30,7 @@
 }
 
 .x-button-clicked {
+  visibility: visible;
   animation: jenny 1s forwards;
 }
 
@@ -39,7 +40,6 @@
   } 
   100% {
     left:100%;
-    // visibility: hidden;
   }
 }
 

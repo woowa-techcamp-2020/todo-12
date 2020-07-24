@@ -24,12 +24,13 @@
   display: inline;
   position: absolute;
   right: 0;
-  margin: 20px;
+  margin: 10px 20px;
   cursor: pointer;
   transition: width 2s ;
 }
 
 .x-button-clicked {
+  visibility: visible;
   animation: jenny 1s forwards;
 }
 

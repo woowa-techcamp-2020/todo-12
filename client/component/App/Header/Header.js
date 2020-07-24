@@ -1,5 +1,6 @@
 import UserWrapper from "./UserWrapper/UserWrapper.js";
 import BoardWrapper from "./BoardWrapper/BoardWrapper.js";
+import Log from "./Log/Log.js";
 
 export default class Header {
   constructor({ target }) {
@@ -15,7 +16,21 @@ export default class Header {
     this.header = header;
     this.userWrapper = new UserWrapper({ target: selection });
     this.boardWrapper = new BoardWrapper({ target: selection });
+    this.log = new Log({ target: header });
+    this.boardId = null;
 
     target.appendChild(header);
   }
+
+  setState(boardId) {
+    this.boardId = boardId;
+    this.log.fetchLog(boardId);
+
+    // const logDom = document.querySelector('.log');
+    // const menuBtn = document.querySelector('.menu');
+    // menuBtn.addEventListener('click', function(e) {
+    //   logDom.classList.add('menu-button-clicked');
+    // });
+  }
+
 }

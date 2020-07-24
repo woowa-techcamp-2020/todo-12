@@ -25,6 +25,13 @@ export default class Log {
   }
 
   render() {
+    const logDom = document.querySelector('.log');
+    const menuBtn = document.querySelector('.menu');
+    menuBtn.addEventListener('click', function(e) {
+      logDom.classList.add('menu-button-clicked');
+      logDom.classList.remove('x-button-clicked');
+    });
+
     const logItems = this.data;
     this.log.innerHTML =  `
     <header class="log-header">
@@ -34,7 +41,8 @@ export default class Log {
     `
     const xBtn = document.querySelector('.x-button');
     xBtn.addEventListener('click', function(e) {
-        e.target.closest('.log').classList.add('x-button-clicked');
+        logDom.classList.add('x-button-clicked');
+        logDom.classList.remove('menu-button-clicked');
     });
 
     const logList = document.querySelector('.log-list');

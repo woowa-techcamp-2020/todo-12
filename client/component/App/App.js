@@ -14,5 +14,6 @@ export default class App {
   setState(selectedBoardId) {
     this.boardId = selectedBoardId;
     this.main.setState(selectedBoardId);
+    this.header.setState(selectedBoardId);
   }
 }

@@ -83,7 +83,8 @@ export default class Log {
         const logItem = document.createElement('div');
         logItem.className = "log-item";
         logItem.innerHTML = `
-            <div class= "log-text">칼럼 <span class="highlight">${FROM_LIST}</span>의 <span class="highlight">${TARGET_TITLE.substr(0,10)}</span>을(를) ${action}</div>
+            <div class= "log-text">칼럼 <span class="highlight">${FROM_LIST}</span>의 <span class="highlight">${TARGET_TITLE.substr(0,10)}</span>을(를) ${action} <br> <span class="log-time">${CREATED_AT.substr(0,19).replace('T', ' ')}</span></div>
+
         `;
         logList.appendChild(logItem);
     });

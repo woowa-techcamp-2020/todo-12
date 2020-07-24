@@ -57,9 +57,7 @@ export const api = {
       );
     },
     log(boardId) {
-      return fetch(`${API_ENDPOINT}/logs/${boardId}`).then((res) => 
-        res.json()
-      );
+      return fetch(`${API_ENDPOINT}/logs/${boardId}`).then((res) => res.json());
     },
   },
   update: {
@@ -67,8 +65,17 @@ export const api = {
     board() {},
     list() {},
     itemContent(itemId, itemData) {
-      return fetch(`${API_ENDPOINT}/items/${itemId}`, {
+      return fetch(`${API_ENDPOINT}/items/${itemId}/content`, {
         method: "PUT",
+        body: JSON.stringify(itemData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json());
+    },
+    itemPosition(itemData) {
+      return fetch(`${API_ENDPOINT}/items/${itemData.itemId}/position`, {
+        method: "PATCH",
         body: JSON.stringify(itemData),
         headers: {
           "Content-Type": "application/json",

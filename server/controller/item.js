@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
   res.send({ insertedItem, insertedLog });
 };
 
-exports.update = async (req, res) => {
+exports.updateContent = async (req, res) => {
   const {
     content,
     position,
@@ -60,6 +60,16 @@ exports.update = async (req, res) => {
   const updatedItem = await Item.update("item", req.params.itemId, itemData);
   const insertedLog = await Log.create("log", logData);
   res.send({ updatedItem, insertedLog });
+};
+
+exports.updatePosition = async (req, res) => {
+  const { order, list } = req.body;
+  const itemData = {
+    position: order,
+    list_id: list,
+  };
+  const updatedItem = await Item.update("item", req.params.itemId, itemData);
+  res.send({ updatedItem });
 };
 
 exports.delete = (req, res) => {

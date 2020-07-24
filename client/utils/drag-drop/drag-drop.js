@@ -1,3 +1,5 @@
+import { api } from "../../api";
+
 export default function () {
   let selectedElem,
     draggableItem,
@@ -36,9 +38,49 @@ export default function () {
     selectedElem.classList.add("shadow");
   };
 
+  const fetchPositionInListUpdate = async function (itemId, order, list) {
+    const itemData = {
+      itemId,
+      order,
+      list,
+    };
+    try {
+      await api.update.itemPosition(itemData).then((data) => console.log(data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchChangeList = function () {};
+
+  const changePosition = function (origin, current) {
+    const originList = document.querySelectorAll(".list")[origin.list - 1];
+    const originListLength = originList.querySelectorAll(".item").length;
+    const currentList = document.querySelectorAll(".list")[current.list - 1];
+    const currentListLength = currentList.querySelectorAll(".item").length;
+
+    currentList.querySelectorAll(".item").forEach((item, idx) => {
+      const itemId = item.dataset.id;
+      const newOrder = currentListLength - idx;
+      item.dataset.order = newOrder;
+      item.dataset.list = current.list;
+      fetchPositionInListUpdate(itemId, newOrder, current.list);
+    });
+
+    if (originList !== currentList) {
+      originList.querySelectorAll(".item").forEach((item, idx) => {
+        const itemId = item.dataset.id;
+        const newOrder = originListLength - idx;
+        item.dataset.order = newOrder;
+        item.dataset.list = origin.list;
+        fetchPositionInListUpdate(itemId, newOrder, origin.list);
+      });
+    }
+  };
+
   const checkMovement = function () {
     const {
-      data: { list, order },
+      dataset: { list, order },
     } = selectedElem;
     const originInfo = {
       list,
@@ -48,18 +90,17 @@ export default function () {
     const currListItems = currList.querySelectorAll(".item");
     const currOrder = Array.from(currListItems).indexOf(selectedElem);
     const currentInfo = {
-      list: currList.data.order,
+      list: currList.dataset.id,
       order: currOrder,
     };
-    // 업데이트 api
-    // dataset 변경
+    changePosition(originInfo, currentInfo);
   };
 
   const handleMouseUp = function (e) {
     draggableItem.remove();
     selectedElem.classList.remove("shadow");
-    reset();
     checkMovement();
+    reset();
   };
 
   const locator = function () {

@@ -20,6 +20,8 @@ export default class List {
     target.insertAdjacentElement("afterbegin", list);
     this.list = list;
     this.data = null;
+
+    this.list.addEventListener("click", this.handleListClick.bind(this));
   }
 
   setState(data) {
@@ -45,18 +47,22 @@ export default class List {
     const classes = Array.from(classList);
     if (classes.includes("item-add-btn")) {
       this.openItemCreationSection();
+      return;
     }
     if (classes.includes("cancel-btn")) {
       this.resetItemCreationSection();
       this.closeItemCreationSection();
+      return;
     }
     if (classes.includes("confirm-btn")) {
       this.handleItemSubmission();
+      return;
     }
     if (tagName === "TEXTAREA") {
       this.list
         .querySelector("textarea")
         .addEventListener("input", this.handleInputChange.bind(this));
+      return;
     }
   }
 
@@ -66,7 +72,7 @@ export default class List {
       const { board_id, list_id, list_title: from_list } = this.data;
       const itemData = {
         content: content,
-        position: 1,
+        position: parseInt(this.list.querySelector(".counter").innerText) + 1,
         board_id,
         list_id,
         performer_id: 1,
@@ -205,8 +211,6 @@ export default class List {
       </section>
       <section class="items"></section>
     `;
-
-    this.list.addEventListener("click", this.handleListClick.bind(this));
 
     const itemContainer = this.list.querySelector(".items");
     validItems.forEach((item) => {

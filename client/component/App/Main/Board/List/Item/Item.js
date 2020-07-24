@@ -180,7 +180,7 @@ export default class Item {
       <div class="del-confirm invisible">
         <span>정말로 삭제하시겠습니까?</span>
         <div class="confirm-btns">
-          <button class="confirm-btn">Update</button>
+          <button class="confirm-btn">Delete</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </div>

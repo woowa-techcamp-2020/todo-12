@@ -72,7 +72,7 @@ export default class List {
       const { board_id, list_id, list_title: from_list } = this.data;
       const itemData = {
         content: content,
-        position: 1,
+        position: parseInt(this.list.querySelector(".counter").innerText) + 1,
         board_id,
         list_id,
         performer_id: 1,

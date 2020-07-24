@@ -46,7 +46,7 @@ class Board extends BaseModel {
         LEFT JOIN user u
           ON i.performer_id = u.id
         WHERE b.id = ${boardId}
-        ORDER BY list_position, item_position_in_list DESC;
+        ORDER BY list_position DESC, item_position_in_list DESC;
       `,
       (err, res) => {
         if (err) {

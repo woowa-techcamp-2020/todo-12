@@ -14,13 +14,32 @@ export default class Board {
     this.render();
   }
 
+  addList(e) {
+    e.stopPropagation();
+  }
+
   render() {
+    this.board.innerHTML = `
+      <div class="list-add">
+        <span>+</span>
+        <span>클릭하세요!</span>
+      </div>`;
+
+    const listAdd = this.board.querySelector(".list-add");
+    if (this.data.lists.length >= 4 || !this.data) {
+      listAdd.classList.add("hide");
+    } else {
+      listAdd.classList.remove("hide");
+    }
+
+    listAdd.addEventListener("click", this.addList.bind(this));
+
     const { lists } = this.data;
     if (lists.length) {
       lists.forEach((list) => {
         if (list.list_id) {
           const listI = new List({ target: this.board });
-          listI.setState(list);
+          listI.setState({ ...list, board_id: this.data.board_id });
         }
       });
     }

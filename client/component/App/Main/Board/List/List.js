@@ -1,4 +1,5 @@
 import Item from "./Item/Item.js";
+import { api } from "../../../../../api.js";
 
 const config = {
   CONTENT_LIMIT: 500,
@@ -16,13 +17,27 @@ export default class List {
   constructor({ target }) {
     const list = document.createElement("section");
     list.className = "list";
-    target.appendChild(list);
+    target.insertAdjacentElement("afterbegin", list);
     this.list = list;
     this.data = null;
   }
 
   setState(data) {
     this.data = data;
+    this.render();
+  }
+
+  handleItemChange(type, data) {
+    if (type === "update") {
+      const found = this.data.items.findIndex(
+        (item) => item.item_id === data.item_id
+      );
+      this.data.items[found] = data;
+    } else if (type === "delete") {
+      this.data.items = this.data.items.filter(
+        (item) => item.item_id !== data.item_id
+      );
+    }
     this.render();
   }
 
@@ -45,6 +60,38 @@ export default class List {
     }
   }
 
+  async fetchItemCreate() {
+    try {
+      const content = this.list.querySelector("textarea").value;
+      const { board_id, list_id, list_title: from_list } = this.data;
+      const itemData = {
+        content: content,
+        position: 1,
+        board_id,
+        list_id,
+        performer_id: 1,
+        from_list,
+      };
+      await api.create.item(itemData).then((data) => {
+        const {
+          id: item_id,
+          content: item_content,
+          position: item_position_in_list,
+        } = data.insertedItem;
+        const newItem = {
+          item_id,
+          item_content,
+          item_position_in_list,
+          item_performer_name: "admin",
+        };
+        this.data.items.unshift(newItem);
+        this.render();
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   handleItemSubmission() {
     const textarea = this.list.querySelector("textarea");
     const inputLength = textarea.value.length;
@@ -52,6 +99,7 @@ export default class List {
       this.showWarning(textarea, config.WARNING_TYPE.EMPTY);
     } else {
       this.removeWarning(textarea, config.WARNING_TYPE.EMPTY);
+      this.fetchItemCreate();
     }
   }
 
@@ -119,7 +167,14 @@ export default class List {
   }
 
   render() {
-    const { list_id: id, list_title: title, list_position: order } = this.data;
+    const {
+      list_id: id,
+      list_title: title,
+      list_position: order,
+      items,
+    } = this.data;
+
+    const validItems = items.filter((item) => item.item_id);
 
     this.list.dataset.id = id;
     this.list.dataset.order = order;
@@ -127,7 +182,7 @@ export default class List {
     this.list.innerHTML = `
       <header>
         <div class="col">
-          <div class="counter">3</div>
+          <div class="counter">${validItems.length}</div>
           <span class="title">${title}</span>
         </div>
         <div class="col">
@@ -144,7 +199,7 @@ export default class List {
           </div>
         </div>
         <div class="item-creation__btns">
-          <button class="confirm-btn" disabled>Add</button>
+          <button class="confirm-btn">Add</button>
           <button class="cancel-btn">Cancel</button>
         </div>
       </section>
@@ -153,13 +208,19 @@ export default class List {
 
     this.list.addEventListener("click", this.handleListClick.bind(this));
 
-    const { items } = this.data;
     const itemContainer = this.list.querySelector(".items");
-    items.forEach((item) => {
-      if (item.item_id) {
-        const itemI = new Item({ target: itemContainer });
-        itemI.setState(item);
-      }
+    validItems.forEach((item) => {
+      const itemI = new Item({
+        target: itemContainer,
+        onChange: (type, data) => {
+          this.handleItemChange(type, data);
+        },
+      });
+      itemI.setState({
+        ...item,
+        list_id: this.data.list_id,
+        board_id: this.data.board_id,
+      });
     });
   }
 }

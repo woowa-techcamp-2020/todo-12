@@ -1,5 +1,31 @@
 .board {
-  width: 90%;
+  margin: 0 auto;
   height: 90%;
   display: flex;
+  justify-content: flex-start;
+  .list-add {
+    width: $list-width;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    border: 3px dashed $grey;
+    border-radius: 10px;
+    font-size: 40px;
+    color: $grey;
+    span:first-child {
+      font-size: 80px;
+    }
+    transition: background-color, color 0.2s ease-in-out;
+    &:hover {
+      font-size: 34px;
+      background-color: $grey;
+      color: $white;
+    }
+  }
+  .hide {
+    display: none;
+  }
 }

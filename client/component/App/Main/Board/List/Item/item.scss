@@ -29,6 +29,8 @@
         width: 100%;
         .content {
           flex: 1;
+          word-break: break-word;
+          overflow-y: scroll;
         }
       }
     }
@@ -63,7 +65,51 @@
       }
     }
   }
+  .del-confirm {
+    position: absolute;
+    width: $item-width;
+    height: $item-height;
+    background-color: rgba(252, 252, 252, 0.9);
+    color: $black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    .confirm-btns {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: $btn-height;
+        width: $btn-width;
+        padding: 12px 40px;
+        border-radius: 5px;
+        color: $white;
+        &.confirm-btn {
+          background-color: $red;
+          filter: brightness(0.8);
+          &:hover {
+            filter: brightness(1);
+          }
+        }
+        &.cancel-btn {
+          background-color: $cancel;
+          filter: brightness(0.8);
+          &:hover {
+            filter: brightness(1);
+          }
+        }
+      }
+    }
+  }
   .hide {
     display: none;
+  }
+  .invisible {
+    visibility: hidden;
   }
 }

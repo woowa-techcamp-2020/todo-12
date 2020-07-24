@@ -3,7 +3,7 @@ import BoardWrapper from "./BoardWrapper/BoardWrapper.js";
 import Log from "./Log/Log.js";
 
 export default class Header {
-  constructor({ target }) {
+  constructor({ target, boardId }) {
     const header = document.createElement("header");
     header.innerHTML = `
       <div class="col">To Do</div>  
@@ -16,8 +16,8 @@ export default class Header {
     this.header = header;
     this.userWrapper = new UserWrapper({ target: selection });
     this.boardWrapper = new BoardWrapper({ target: selection });
-    this.log = new Log({ target: header });
-    this.boardId = null;
+    this.log = new Log({ target: header, boardId });
+    this.boardId = boardId;
 
     target.appendChild(header);
   }
@@ -25,12 +25,6 @@ export default class Header {
   setState(boardId) {
     this.boardId = boardId;
     this.log.fetchLog(boardId);
-
-    // const logDom = document.querySelector('.log');
-    // const menuBtn = document.querySelector('.menu');
-    // menuBtn.addEventListener('click', function(e) {
-    //   logDom.classList.add('menu-button-clicked');
-    // });
   }
 
 }

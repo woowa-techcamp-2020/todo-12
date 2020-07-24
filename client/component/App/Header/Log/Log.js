@@ -1,12 +1,13 @@
 import { api } from "../../../../api.js";
 
 export default class Log {
-  constructor({ target }) {
+  constructor({ target, boardId }) {
     const log = document.createElement("section");
     log.className = "log";
     target.appendChild(log);
     this.log = log;
     this.data = null;
+    this.boardId = boardId;
   }
 
   setState(data) {
@@ -24,11 +25,16 @@ export default class Log {
     }
   }
 
+  
+
   render() {
+    const currEnv = this;
     const logDom = document.querySelector('.log');
     const menuBtn = document.querySelector('.menu');
+
     menuBtn.addEventListener('click', function(e) {
-      logDom.classList.add('menu-button-clicked');
+      currEnv.fetchLog(currEnv.boardId);
+      logDom.classList.add('menu-button-clicked');  
       logDom.classList.remove('x-button-clicked');
     });
 
@@ -77,9 +83,9 @@ export default class Log {
         const logItem = document.createElement('div');
         logItem.className = "log-item";
         logItem.innerHTML = `
-            <div class= "log-text">칼럼 <span class="highlight">${FROM_LIST}</span>의 <span class="highlight">${TARGET_TITLE.substr(0,10)}</span>을(를) ${action}</div>
-        `;
+            <div class= "log-text">칼럼 <span class="highlight">${FROM_LIST}</span>의 <span class="highlight">${TARGET_TITLE.substr(0,10)}</span>을(를) ${action} <br> <span class="log-time">${CREATED_AT.substr(0,19).replace('T', ' ')}</span></div>
 
+        `;
         logList.appendChild(logItem);
     });
   }

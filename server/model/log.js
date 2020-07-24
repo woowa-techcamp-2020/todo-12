@@ -15,7 +15,7 @@ class Log extends BaseModel {
     }
 
     static getAll(boardId, result) {
-        sql.query(`SELECT * FROM log WHERE board_id = ${boardId}`, (err, res) => {
+        sql.query(`SELECT * FROM log WHERE board_id = ${boardId} ORDER BY id DESC` , (err, res) => {
           if (err) {
             console.log("error: ", err);
             result(err, null);

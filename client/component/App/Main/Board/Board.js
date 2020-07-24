@@ -14,15 +14,25 @@ export default class Board {
     this.render();
   }
 
+  addList(e) {
+    e.stopPropagation();
+  }
+
   render() {
-    this.board.innerHTML = `<div class="list-add">+</div>`;
+    this.board.innerHTML = `
+      <div class="list-add">
+        <span>+</span>
+        <span>클릭하세요!</span>
+      </div>`;
 
     const listAdd = this.board.querySelector(".list-add");
     if (this.data.lists.length >= 4 || !this.data) {
-      listAdd.classList.add("invisible");
+      listAdd.classList.add("hide");
     } else {
-      listAdd.classList.remove("invisible");
+      listAdd.classList.remove("hide");
     }
+
+    listAdd.addEventListener("click", this.addList.bind(this));
 
     const { lists } = this.data;
     if (lists.length) {

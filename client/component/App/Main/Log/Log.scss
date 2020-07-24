@@ -1,0 +1,77 @@
+
+.log {
+  position: fixed;
+  margin: 0;
+  width:20%;
+  height:100vh;
+  left: 80%;
+  top:0;
+  z-index: 2;
+  background-color: $grey;
+  border-radius: 20px 0 0 20px;
+  box-shadow: $basic-shadow;
+  visibility: hidden;
+}
+
+.log-header {
+  height: 7vh;
+  position: relative;
+}
+
+.x-button {
+  font-weight: bold;
+  color: $black;
+  display: inline;
+  position: absolute;
+  right: 0;
+  margin: 20px;
+  cursor: pointer;
+  transition: width 2s ;
+}
+
+.x-button-clicked {
+  animation: jenny 1s forwards;
+}
+
+@keyframes jenny {
+  0% {
+    left: 80%;
+  } 
+  100% {
+    left:100%;
+  }
+}
+
+.menu-button-clicked {
+  visibility: visible;
+  animation: bong 1s forwards;
+}
+
+@keyframes bong {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: 80%;
+  }
+}
+
+.log-item {
+  line-height: 20px;
+}
+
+.log-text {
+  font-size: 13px;
+  background-color: $white;
+  padding:15px;
+  margin: 10px 10px;
+  vertical-align: middle;
+  border-radius: 10px;
+  box-shadow: $basic-shadow;
+  transition: width 2s ;
+}
+
+.highlight {
+  font-weight: 600;
+  color: $coralblue;
+}

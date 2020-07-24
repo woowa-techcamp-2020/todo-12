@@ -3,6 +3,6 @@ const logController = require("../controller/log.js");
 
 const router = express.Router();
 
-router.get("", logController.findAll);
+router.get("/:boardId", logController.findAll);
 
 module.exports = router;

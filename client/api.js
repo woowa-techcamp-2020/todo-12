@@ -56,6 +56,11 @@ export const api = {
         res.json()
       );
     },
+    log(boardId) {
+      return fetch(`${API_ENDPOINT}/logs/${boardId}`).then((res) => 
+        res.json()
+      );
+    },
   },
   update: {
     user() {},
